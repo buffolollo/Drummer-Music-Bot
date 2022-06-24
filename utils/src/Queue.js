@@ -5,6 +5,9 @@ function createQueue(message, channel, setqueue, song) {
     connection: null,
     player: null,
     resource: null,
+    filters: {
+      bassboost: false
+    },
     volume: 100,
     paused: false,
     loopone: false,

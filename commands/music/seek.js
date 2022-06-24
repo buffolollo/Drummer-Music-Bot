@@ -33,6 +33,7 @@ module.exports = {
     const send = (content) => message.channel.send(content);
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
+    
     var time;
 
     time = args[0];
