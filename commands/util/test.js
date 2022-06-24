@@ -47,8 +47,8 @@ const filters = {
   fadein: "afade=t=in:ss=0:d=10",
 };
 module.exports = {
-  name: "bassboost",
-  aliases: ["bb", "boobs", "bs"],
+  name: "command-test-1",
+  aliases: ["test"],
   voice: true,
   staff: true,
   d: "Bassboost!",

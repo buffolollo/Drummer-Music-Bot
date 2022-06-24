@@ -29,7 +29,6 @@ const pause = require("./pause");
 const addSongToQueue = require("../../utils/src/addSongToQueue");
 const Queue = require("../../utils/src/Queue");
 const Song = require("../../utils/src/Song");
-const play = require("./bassboost");
 
 module.exports = {
   name: "play",
