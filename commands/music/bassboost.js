@@ -1,4 +1,13 @@
 let { MessageEmbed, Client, Message, Util } = require("discord.js");
+const {
+  AudioPlayerStatus,
+  joinVoiceChannel,
+  createAudioPlayer,
+  NoSubscriberBehavior,
+  createAudioResource,
+  VoiceConnectionStatus,
+  getVoiceConnection,
+} = require("@discordjs/voice");
 let ytdl = require("discord-ytdl-core");
 let yt = require("ytdl-core");
 let forHumans = require("../../utils/src/forhumans");
@@ -142,7 +151,7 @@ module.exports = {
             encoderArgs: ["-af", `bass=g=${bassboost_level}`],
             seek: totalTime,
           });
-          queue.filters.bassboost = true
+          queue.filters.bassboost = true;
         } else {
           newStream = await ytdl(track.url, {
             filter: "audioonly",
@@ -151,7 +160,7 @@ module.exports = {
             opusEncoded: true,
             seek: totalTime,
           });
-          queue.filters.bassboost = false
+          queue.filters.bassboost = false;
         }
 
         queue.addTime = parseInt(addtime);
@@ -176,12 +185,6 @@ module.exports = {
           }
           _playYTDLStream(queue.songs[0]);
         });
-
-        if (time < 0) {
-          queue.message.channel.send({
-            content: `**Playing** 🎶 \`${track.name}\` - Now!`,
-          });
-        }
 
         queue.message.channel.send({
           embeds: [
