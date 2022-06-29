@@ -21,7 +21,7 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setDescription("Non c'è nessuna coda dopo questa canzone")
+            .setDescription("There is no queue after this song")
             .setColor("YELLOW"),
         ],
       });

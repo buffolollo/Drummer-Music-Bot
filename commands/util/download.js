@@ -8,6 +8,7 @@ module.exports = {
   aliases: ["dl", "dw"],
   d: "Private cmd",
   staff: true,
+  stop: true,
   /**
    *
    * @param {Client} client

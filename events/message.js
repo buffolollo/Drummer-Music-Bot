@@ -23,7 +23,6 @@ module.exports = {
       prefix = "!";
       db.create({
         _id: message.author.id,
-        user: message.author.tag,
         prefix: "!",
       });
     }
@@ -40,6 +39,10 @@ module.exports = {
       );
 
     if (!cmd) return;
+
+    if (cmd.stop) {
+      return;
+    }
 
     if (cmd.voice && !message.member.voice.channel) {
       return message.channel.send({

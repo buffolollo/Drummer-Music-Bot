@@ -8,8 +8,8 @@ const {
 } = require("@discordjs/voice");
 
 module.exports = {
-  name: "queueplay",
-  aliases: ["qp", "goto", "go", "to"],
+  name: "goto",
+  aliases: ["qp", "goto", "go", "to", "queueplay"],
   d: "Goto a song in the queue",
   voice: true,
   queue: true,
@@ -115,14 +115,14 @@ module.exports = {
         queue.player.on(AudioPlayerStatus.Idle, () => {
           queue.addTime = 0;
           if (queue.loopone) {
-            return _playYTDLStream(data.songs[0]);
-          } else if (data.loopall) {
-            let removed = data.songs.shift();
+            return _playYTDLStream(queue.songs[0]);
+          } else if (queue.loopall) {
+            let removed = queue.songs.shift();
             queue.songs.push(removed);
           } else {
             queue.songs.shift();
           }
-          _playYTDLStream(data.songs[0]);
+          _playYTDLStream(queue.songs[0]);
         });
 
         // let dispatcher = queue.connection

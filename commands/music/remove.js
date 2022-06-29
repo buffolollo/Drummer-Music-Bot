@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["rm"],
   voice: true,
   queue: true,
-  d: "Rimuovi una canzone dalla coda!",
+  d: "Remove a song from the queue!",
   /**
    *
    * @param {Client} client

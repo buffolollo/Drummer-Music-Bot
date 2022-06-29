@@ -4,6 +4,7 @@ const {
   createAudioPlayer,
   createAudioResource,
   VoiceConnectionStatus,
+  AudioPlayerStatus
 } = require("@discordjs/voice");
 
 module.exports = {
@@ -31,23 +32,25 @@ module.exports = {
       });
 
     const query = args[0];
+
     if (!query) return error("Insert a link to a discord video or song");
     const connection = joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
       adapterCreator: channel.guild.voiceAdapterCreator,
     });
+
     const player = createAudioPlayer();
     const resource = createAudioResource(query, { inlineVolume: true });
     player.play(resource);
     connection.subscribe(player);
     resource.volume.setVolumeLogarithmic(100 / 100);
+
     send(`I'm playing the sound!`);
-    connection.on(
-      VoiceConnectionStatus.Disconnected,
-      async (oldState, newState) => {
-        deletequeue(message.guild.id);
-      }
-    );
+
+    player.on(AudioPlayerStatus.Idle, () => {
+      send("Finished audio!")
+      connection.disconnect()
+    })
   },
 };

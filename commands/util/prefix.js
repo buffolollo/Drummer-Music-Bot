@@ -42,21 +42,5 @@ module.exports = {
       send(`**Your prefix has been updated to ${newPrefix} !**`);
     }
 
-    // db.findOne({ _id: message.author.id }, async (err, doc) => {
-    //   if (!doc) {
-    //     db.create({
-    //       _id: message.author.id,
-    //       prefix: newPrefix,
-    //     });
-    //   } else {
-    //     const query = { _id: message.author.id };
-    //     await db.findOneAndUpdate(query, {
-    //       $set: {
-    //         prefix: `${newPrefix}`,
-    //       },
-    //     });
-    //     send(`**Your prefix has been updated to ${newPrefix} !**`);
-    //   }
-    // });
   },
 };

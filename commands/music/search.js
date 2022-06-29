@@ -8,7 +8,7 @@ module.exports = {
   name: "search",
   aliases: ["sr"],
   voice: true,
-  d: "Cerca una caznone!",
+  d: "Search a song!",
   /**
    *
    * @param {Client} client

@@ -1,0 +1,7 @@
+{
+    "prefix": "!",
+    "leaveOnEndQueue": 60,
+    "leaveOnStop": 60,
+    "token": "OTI4MDAxNzI3MzA5OTQ2OTMy.YdSa9Q.iQDDpNVwSh6h1mWTEN8F4HS6QMs",
+    "database": "mongodb://185.229.237.130:9203/BuffololloDB"
+}

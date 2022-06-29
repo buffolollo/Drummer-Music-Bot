@@ -11,9 +11,14 @@ const {
 let ytdl = require("discord-ytdl-core");
 let yt = require("ytdl-core");
 let forHumans = require("../../utils/src/forhumans");
-let spotify = require("spotify-url-info");
+const Spotify = require("spotifydl-core").default;
+const credentials = {
+  clientId: "3d1908318dd0494a9ae38ef5f195b72d",
+  clientSecret: "43b78c3812e543288647876e6815da30",
+};
+const spotify = new Spotify(credentials);
 const searcher = require("youtube-sr").default;
-const spotifyPlaylist = require("../../utils/handler/spotifyPlaylist");
+const spotifyPlaylist = require("../../utils/handlers/spotifyPlaylist");
 const youtubeVideo =
   /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
 const youtubePlaylist =
@@ -103,9 +108,8 @@ module.exports = {
     let vc = message.member.voice.channel;
 
     if (searcher.validate(query, "PLAYLIST_ID")) {
-      const playlist = searcher.getPlaylist(query);
       var a = 0;
-      playlist
+      searcher.getPlaylist(query)
         .then((playlist) => playlist.fetch())
         .then(async (playlist) => {
           message.channel.send({
@@ -130,8 +134,8 @@ module.exports = {
     }
 
     if (query.match(spotifySongRegex)) {
-      let data = await spotify.getPreview(query);
-      let result = await searcher.search(`${data.title} ${data.artist}`, {
+      let data = await spotify.getTrack(query);
+      let result = await searcher.search(`${data.name} ${data.artists}`, {
         type: "video",
         limit: 1,
       });
@@ -142,29 +146,27 @@ module.exports = {
     }
 
     if (query.match(spotifyPlaylistRegex)) {
-      let playlist = await spotify.getData(query);
+      let playlist = await spotify.getPlaylist(query);
       message.channel.send({
         content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.name}\` Potrebbe volerci un po...`,
       });
       let name = playlist.name;
-      let s = 0;
-      let interrupt = 0;
-      for (let i = 0; i < playlist.tracks.items.length; i++) {
+      var ForLoop = 0;
+      var noResult = 0;
+      var interrupt = 0;
+      for (let i = 0; i < playlist.total_tracks; i++) {
         if (!message.guild.me.voice.channel) {
           interrupt = 1;
           break;
         }
-        let query = `${playlist.tracks.items[i].track.name} - ${playlist.tracks.items[i].track.artists[0].name}`;
+        const data = await spotify.getTrack(playlist.tracks[i]);
+        let query = `${data.name} ${data.artists}`;
         const result = await searcher
           .search(query, { type: "video", limit: 1 })
           .catch((err) => {});
         if (result.length < 1 || !result) {
-          s++; // could be used later for skipped tracks due to result not being found //tipo per quanti errori
+          noResult++; // could be used later for skipped tracks due to result not being found //tipo per quanti errori
           continue;
-        }
-        if (!message.guild.me.voice.channel) {
-          interrupt = 1;
-          break;
         }
         await videoHandler(
           await ytdl.getInfo(result[0].url),
@@ -172,40 +174,18 @@ module.exports = {
           vc,
           true
         );
+        ForLoop++;
       }
 
-      if ((interrupt = 0)) {
+      const playlistLength = ForLoop - noResult;
+
+      if (interrupt == 0) {
         return send({
-          content: `**Spotify playlist: \`${spotify.name}\` has been added! | Songs: \`${tracks.length}\`**`,
+          content: `**Spotify playlist: \`${playlist.name}\` has been added! | Songs: \`${playlistLength}\`**`,
         });
       }
+      return;
     }
-
-    // if (query.match(spotifyPlaylistRegex)) {
-    //   const spotify = await spotifyPlaylist(message, query);
-    //   let tracks = spotify.tracks;
-    //   let u = 0;
-    //   for (let i = 0; i < tracks.length; i++) {
-    //     if (message.guild.me.voice.channel) {
-    //       await videoHandler(
-    //         await ytdl.getInfo(tracks[i].url),
-    //         message,
-    //         vc,
-    //         true
-    //       );
-    //     } else {
-    //       u = 1;
-    //       break;
-    //     }
-    //   }
-    //   // tracks.forEach(async (track) => {
-    //   //   await videoHandler(await ytdl.getInfo(track.url), message, vc, true);
-    //   // });
-    //   if ((u = 1)) return;
-    //   return send({
-    //     content: `**Spotify playlist: \`${spotify.name}\` has been added! | Songs: \`${tracks.length}\`**`,
-    //   });
-    // }
 
     let result = await searcher.search(query, { type: "video", limit: 1 });
     if (result.length < 1 || !result)
@@ -272,18 +252,22 @@ module.exports = {
           }
           return;
         }
+
         data.connection.on(
           VoiceConnectionStatus.Disconnected,
           async (oldState, newState) => {
+            data.player.stop()
             deletequeue(message.guild.id);
           }
         );
+
         let newStream = await ytdl(track.url, {
           filter: "audioonly",
           quality: "highestaudio",
           highWaterMark: 1 << 25,
           opusEncoded: true,
         });
+        
         data.stream = newStream;
         const player = createAudioPlayer();
         const resource = createAudioResource(newStream, { inlineVolume: true });
