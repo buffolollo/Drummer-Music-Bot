@@ -1,16 +1,20 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
-const ytdl = require("discord-ytdl-core");
-const skip = require("./skip");
 const {
-  VoiceConnectionStatus,
   AudioPlayerStatus,
+  joinVoiceChannel,
+  createAudioPlayer,
+  NoSubscriberBehavior,
   createAudioResource,
+  VoiceConnectionStatus,
+  getVoiceConnection,
 } = require("@discordjs/voice");
+const ytdl = require("discord-ytdl-core");
+const ytsr = require("yt-search");
+const yt = require("ytdl-core");
 
 module.exports = {
-  name: "goto",
-  aliases: ["qp", "goto", "go", "to", "queueplay"],
-  d: "Goto a song in the queue",
+  name: "replay",
+  aliases: ["restart", "rs"],
   voice: true,
   queue: true,
   /**
@@ -18,48 +22,31 @@ module.exports = {
    * @param {Client} client
    * @param {Message} message
    * @param {String[]} args
-   * @returns
    */
   async execute(client, message, args) {
+    let queue = message.client.queue.get(message.guild.id);
+
     const channel = message.member.voice.channel;
 
     const error = (err) =>
-      message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
-      });
+      message.channel.send(
+        new MessageEmbed().setColor("RED").setDescription(err)
+      );
 
     const send = (content) =>
-      message.channel.send({
-        embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
-      });
+      message.channel.send(
+        new MessageEmbed().setDescription(content).setColor("GREEN")
+      );
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
-    var queue = message.client.queue.get(message.guild.id);
-    var num;
 
-    if (queue.songs.length < 2)
-      return error("There's only the song I'm playing!");
-
-    num = parseInt(args[0]);
-    if (isNaN(num)) return error("Please enter a valid number!");
-
-    if (num == 0) return error("**You cannot enter the number 0!**");
-
-    if (num == 1) {
-      skip.execute(client, message, args);
-    }
-
-    if (!queue.songs[num]) {
-      num = parseInt(queue.songs.length - 1);
-      return _playYTDLStream(queue.songs[num]);
-    }
-
-    _playYTDLStream(queue.songs[num]);
+    _playYTDLStream(queue.songs[0]);
 
     async function _playYTDLStream(track) {
       try {
         const queue = message.client.queue.get(message.guild.id);
+
         if (!track) {
           try {
             queue.message.channel.send({
@@ -126,10 +113,6 @@ module.exports = {
           _playYTDLStream(queue.songs[0]);
         });
 
-        queue.songs[0] = queue.songs[num];
-        let q = queue.songs;
-        let index = num;
-        q.splice(index, 1);
         return queue.message.channel.send({
           content: `**Playing** 🎶 \`${track.name}\` - Now!`,
         });
