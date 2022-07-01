@@ -34,6 +34,7 @@ module.exports = {
         }
       }
     }
+    console.log("Reloading commands...");
     send(message, `**I reloaded the commands!**`);
   },
 };

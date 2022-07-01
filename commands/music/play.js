@@ -109,7 +109,8 @@ module.exports = {
 
     if (searcher.validate(query, "PLAYLIST_ID")) {
       var a = 0;
-      searcher.getPlaylist(query)
+      searcher
+        .getPlaylist(query)
         .then((playlist) => playlist.fetch())
         .then(async (playlist) => {
           message.channel.send({
@@ -256,7 +257,7 @@ module.exports = {
         data.connection.on(
           VoiceConnectionStatus.Disconnected,
           async (oldState, newState) => {
-            data.player.stop()
+            data.player.stop();
             deletequeue(message.guild.id);
           }
         );
@@ -267,7 +268,7 @@ module.exports = {
           highWaterMark: 1 << 25,
           opusEncoded: true,
         });
-        
+
         data.stream = newStream;
         const player = createAudioPlayer();
         const resource = createAudioResource(newStream, { inlineVolume: true });
@@ -290,7 +291,6 @@ module.exports = {
           _playYTDLStream(data.songs[0]);
         });
 
-        // data.resource.volume.setVolume(data.volume / 100);
         data.message.channel.send({
           content: `**Playing** 🎶 \`${track.name}\` - Now!`,
         });
