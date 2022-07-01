@@ -44,7 +44,11 @@ module.exports = {
       return;
     }
 
-    if (cmd.voice && !message.member.voice.channel) {
+    if (
+      cmd.voice &&
+      !message.member.voice.channel &&
+      message.member.voice.channelId != message.guild.me.voice.channelId
+    ) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
