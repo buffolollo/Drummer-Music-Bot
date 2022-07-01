@@ -23,7 +23,7 @@ module.exports = {
 
     let query = queue.songs[0].name;
     query = query.replace(
-      /lyrics|lyric|lyrical|official music video|\(official music video\)|audio|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
+      /lyrics|lyric|lyrical|official music video|\(official music video\)|\(video official\)|audio|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
       ""
     );
 
