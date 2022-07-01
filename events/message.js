@@ -44,11 +44,7 @@ module.exports = {
       return;
     }
 
-    if (
-      cmd.voice &&
-      !message.member.voice.channel &&
-      message.member.voice.channelId != message.guild.me.voice.channelId
-    ) {
+    if (cmd.voice && !message.member.voice.channel) {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
@@ -56,6 +52,15 @@ module.exports = {
             .setColor("RED"),
         ],
       });
+      // if (message.member.voice.channel != message.guild.me.voice.channel) {
+      //   return message.channel.send({
+      //     embeds: [
+      //       new MessageEmbed()
+      //         .setDescription("**You are not in the same voice channel** :x:")
+      //         .setColor("RED"),
+      //     ],
+      //   });
+      // }
     }
 
     if (cmd.queue && !message.client.queue.get(message.guild.id)) {
