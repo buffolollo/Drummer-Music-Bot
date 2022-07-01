@@ -4,6 +4,7 @@ const forHumans = require("./forhumans");
 function Song(ytdata, message) {
   const n = parseInt(ytdata.player_response.videoDetails.thumbnail.thumbnails.length)
   const song = {
+    title: Util.escapeMarkdown(ytdata.videoDetails.title),
     name: Util.escapeMarkdown(ytdata.videoDetails.title),
     thumbnail: ytdata.player_response.videoDetails.thumbnail.thumbnails[n - 1].url,
     requested: message.author,
