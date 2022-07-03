@@ -208,6 +208,10 @@ module.exports = {
             adapterCreator: channel.guild.voiceAdapterCreator,
           });
           structure.connection = connection;
+          if (!message.guild.me.voice.channel) {
+            deletequeue(message.guild.id);
+            return;
+          }
           _playYTDLStream(structure.songs[0]);
         } catch (e) {
           console.log(e);
