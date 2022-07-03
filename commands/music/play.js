@@ -151,7 +151,6 @@ module.exports = {
       message.channel.send({
         content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.name}\` Potrebbe volerci un po...`,
       });
-      let name = playlist.name;
       var ForLoop = 0;
       var noResult = 0;
       var interrupt = 0;
