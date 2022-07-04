@@ -76,7 +76,7 @@ module.exports = {
     if (cmd.staff && message.member.id != "690637465341526077") {
       return message.channel.send({
         embeds: [
-          new Discord.MessageEmbed()
+          new MessageEmbed()
             .setDescription("**You don't have permissions!** :x:")
             .setColor("RED"),
         ],
