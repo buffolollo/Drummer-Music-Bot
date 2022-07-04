@@ -11,12 +11,14 @@ const {
 let ytdl = require("discord-ytdl-core");
 let yt = require("ytdl-core");
 let forHumans = require("../../utils/src/forhumans");
-const Spotify = require("spotifydl-core").default;
-const credentials = {
-  clientId: "3d1908318dd0494a9ae38ef5f195b72d",
-  clientSecret: "43b78c3812e543288647876e6815da30",
-};
-const spotify = new Spotify(credentials);
+// const Spotify = require("spotifydl-core").default;
+// const credentials = {
+//   clientId: "3d1908318dd0494a9ae38ef5f195b72d",
+//   clientSecret: "43b78c3812e543288647876e6815da30",
+// };
+// const spotify = new Spotify(credentials);
+const fetch = require('isomorphic-unfetch');
+const spotify = require("spotify-url-info")(fetch);
 const searcher = require("youtube-sr").default;
 const spotifyPlaylist = require("../../utils/handlers/spotifyPlaylist");
 const youtubeVideo =
@@ -102,7 +104,7 @@ module.exports = {
 
     setInterval(() => {
       if (message.guild.me.voice.channel)
-        message.member.guild.me.voice.setDeaf(true).catch((err) => {});
+        message.member.guild.me.voice.setDeaf(true).catch((err) => { });
     }, 2000);
 
     let vc = message.member.voice.channel;
@@ -135,19 +137,18 @@ module.exports = {
     }
 
     if (query.match(spotifySongRegex)) {
-      let data = await spotify.getTrack(query);
-      let result = await searcher.search(`${data.name} ${data.artists}`, {
+      const data = await spotify.getPreview(query)
+      const result = await searcher.search(`${data.title} ${data.artist}`, {
         type: "video",
         limit: 1,
       });
       if (result.length < 1 || !result)
         return error("**Non ho trovato nessun video!**");
-      let songInfo = await ytdl.getInfo(result[0].url);
-      return await videoHandler(songInfo, message, vc);
+      return await videoHandler(await ytdl.getInfo(result[0].url), message, vc);
     }
 
     if (query.match(spotifyPlaylistRegex)) {
-      let playlist = await spotify.getPlaylist(query);
+      const playlist = await spotify.getTracks(query)
       message.channel.send({
         content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.name}\` Potrebbe volerci un po...`,
       });
@@ -159,11 +160,10 @@ module.exports = {
           interrupt = 1;
           break;
         }
-        const data = await spotify.getTrack(playlist.tracks[i]);
-        let query = `${data.name} ${data.artists}`;
+        const query = `${playlist[i].name} ${playlist[i].artists[0].name}`;
         const result = await searcher
           .search(query, { type: "video", limit: 1 })
-          .catch((err) => {});
+          .catch((err) => { });
         if (result.length < 1 || !result) {
           noResult++; // could be used later for skipped tracks due to result not being found //tipo per quanti errori
           continue;
@@ -208,10 +208,6 @@ module.exports = {
             adapterCreator: channel.guild.voiceAdapterCreator,
           });
           structure.connection = connection;
-          if (!message.guild.me.voice.channel) {
-            deletequeue(message.guild.id);
-            return;
-          }
           _playYTDLStream(structure.songs[0]);
         } catch (e) {
           console.log(e);
