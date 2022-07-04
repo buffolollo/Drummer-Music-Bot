@@ -157,10 +157,7 @@ module.exports = {
       var noResult = 0;
       var interrupt = 0;
       for (let i = 0; i < playlist.length; i++) {
-        if (
-          !message.guild.me.voice.channel ||
-          !message.client.queue.get(message.guild.id)
-        ) {
+        if (!message.guild.me.voice.channel) {
           interrupt = 1;
           break;
         }
