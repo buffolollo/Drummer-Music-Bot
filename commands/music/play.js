@@ -20,6 +20,7 @@ let forHumans = require("../../utils/src/forhumans");
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
 const searcher = require("youtube-sr").default;
+const ytpl = require("ytpl");
 const spotifyPlaylist = require("../../utils/handlers/spotifyPlaylist");
 const youtubeVideo =
   /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
@@ -111,22 +112,47 @@ module.exports = {
 
     if (searcher.validate(query, "PLAYLIST_ID")) {
       var a = 0;
-      searcher
-        .getPlaylist(query)
-        .then((playlist) => playlist.fetch())
-        .then(async (playlist) => {
-          message.channel.send({
-            content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.title} | ${playlist.videos.length}\` Un attimo...`,
-          });
-          playlist.videos.forEach(async (video) => {
-            await videoHandler(
-              await ytdl.getInfo(video.url),
-              message,
-              vc,
-              true
-            );
-          });
+      var interrupt = 0;
+      const playlist = await ytpl(query);
+      message.channel.send({
+        content: `🔍🎶 **I'm adding the playlist** \`${playlist.title}. Songs: ${playlist.items.length}\` Un attimo...`,
+      });
+      for (let i = 0; i < playlist.items.length; i++) {
+        if (!message.guild.me.voice.channel) {
+          interrupt = 1;
+          break;
+        }
+        await videoHandler(
+          await ytdl.getInfo(playlist.items[i].shortUrl),
+          message,
+          vc,
+          true
+        );
+        a++;
+      }
+      if (interrupt == 0) {
+        return send({
+          content: `**Youtube playlist: \`${playlist.title}\` has been added! | Songs: \`${a}\`**`,
         });
+      }
+      return;
+      // var a = 0;
+      // searcher
+      //   .getPlaylist(query)
+      //   .then((playlist) => playlist.fetch())
+      //   .then(async (playlist) => {
+      //     message.channel.send({
+      //       content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.title} | ${playlist.videos.length}\` Un attimo...`,
+      //     });
+      //     playlist.videos.forEach(async (video) => {
+      //       await videoHandler(
+      //         await ytdl.getInfo(video.url),
+      //         message,
+      //         vc,
+      //         true
+      //       );
+      //     });
+      //   });
     }
 
     if (searcher.validate(query, "VIDEO")) {
@@ -151,7 +177,7 @@ module.exports = {
       const playlist = await spotify.getTracks(query);
       const data = await spotify.getData(query);
       message.channel.send({
-        content: `🔍🎶 **Sto aggiungendo la playlist** \`${data.name}\` Potrebbe volerci un po...`,
+        content: `🔍🎶 **I'm adding the playlist** \`${data.name}\` Potrebbe volerci un po...`,
       });
       var ForLoop = 0;
       var noResult = 0;

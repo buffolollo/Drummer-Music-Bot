@@ -16,8 +16,9 @@ const credentials = {
 };
 const spotify2 = new Spotify(credentials);
 // const { getData, getPreview, getTracks, getDetails } = require("spotify-url-info")(fetch);
-const fetch = require('isomorphic-unfetch');
+const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
+const ytpl = require("ytpl");
 
 module.exports = {
   name: "test",
@@ -41,13 +42,15 @@ module.exports = {
     const url =
       "https://open.spotify.com/track/3fjmSxt0PskST13CSdBUFx?si=e420cd3a80834011";
 
-    const list = "https://open.spotify.com/playlist/4BFYlk38OIcR483cxm07ZU?si=b57ea99461f94538"
+    const list =
+      "https://open.spotify.com/playlist/4BFYlk38OIcR483cxm07ZU?si=b57ea99461f94538";
 
+    const you = "https://youtube.com/playlist?list=PLrZMRV4sCvOplf_NlTAnYIioBLRC4OPXF";
 
     // getTracks("https://open.spotify.com/playlist/4BFYlk38OIcR483cxm07ZU?si=b57ea99461f94538").then((data) => console.log(data))
 
-    const data = await spotify.getData(list)
+    const data = await ytpl(you);
 
-    console.log(data)
+    console.log(data.items[5].shortUrl);
   },
 };
