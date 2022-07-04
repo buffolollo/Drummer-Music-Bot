@@ -149,18 +149,20 @@ module.exports = {
 
     if (query.match(spotifyPlaylistRegex)) {
       const playlist = await spotify.getTracks(query)
+      const data = await spotify.getData(query)
       message.channel.send({
-        content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.name}\` Potrebbe volerci un po...`,
+        content: `🔍🎶 **Sto aggiungendo la playlist** \`${data.name}\` Potrebbe volerci un po...`,
       });
       var ForLoop = 0;
       var noResult = 0;
       var interrupt = 0;
-      for (let i = 0; i < playlist.total_tracks; i++) {
-        if (!message.guild.me.voice.channel) {
+      for (let i = 0; i < playlist.length; i++) {
+        if (!message.guild.me.voice.channel || !message.client.queue.get(message.guild.id)) {
           interrupt = 1;
           break;
         }
         const query = `${playlist[i].name} ${playlist[i].artists[0].name}`;
+        console.log(`1. ${query}`);
         const result = await searcher
           .search(query, { type: "video", limit: 1 })
           .catch((err) => { });
@@ -168,12 +170,14 @@ module.exports = {
           noResult++; // could be used later for skipped tracks due to result not being found //tipo per quanti errori
           continue;
         }
+        console.log(`2. ${result[0].url}`)
         await videoHandler(
           await ytdl.getInfo(result[0].url),
           message,
           vc,
           true
         );
+        console.log(`3. Riparto...`)
         ForLoop++;
       }
 
@@ -181,7 +185,7 @@ module.exports = {
 
       if (interrupt == 0) {
         return send({
-          content: `**Spotify playlist: \`${playlist.name}\` has been added! | Songs: \`${playlistLength}\`**`,
+          content: `**Spotify playlist: \`${data.name}\` has been added! | Songs: \`${playlistLength}\`**`,
         });
       }
       return;
