@@ -6,7 +6,6 @@ module.exports = {
   name: "prefix",
   aliases: [],
   d: "Set a personal prefix!",
-  staff: true,
   /**
    *
    * @param {Client} client
