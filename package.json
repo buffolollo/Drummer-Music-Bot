@@ -2,12 +2,12 @@
   "name": "drummer-official-bot",
   "version": "3.0.0",
   "DJS_version": "13",
-  "description": "",
+  "description": "Drummer Official Music Bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "buffolollo",
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
