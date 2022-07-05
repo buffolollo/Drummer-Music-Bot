@@ -26,7 +26,7 @@ module.exports = {
     const { commands } = message.client;
     let help = commands
       .filter((cmd) => !cmd.staff)
-      .map((cmd) => `\`${cmd.name}\`: ${cmd.d}`)
+      .map((cmd) => `\`${cmd.name}\`: ${cmd.d}\nAliases: ${cmd.aliases.join(",")}`)
       .join("\n");
     message.channel.send({
       embeds: [

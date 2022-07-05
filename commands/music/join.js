@@ -6,7 +6,8 @@ const yt = require("ytdl-core");
 
 module.exports = {
   name: "join",
-  aliases: ["enter", "come", "cum"],
+  d: "Join the voice channel",
+  aliases: ["enter", "come"],
   /**
    *
    * @param {Client} client
