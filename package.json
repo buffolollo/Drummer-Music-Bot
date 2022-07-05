@@ -1,6 +1,7 @@
 {
-  "name": "buffolollo-music---v13",
+  "name": "Drummer Offciall Bot",
   "version": "3.0.0",
+  "DJS_version": "13",
   "description": "",
   "main": "index.js",
   "scripts": {
