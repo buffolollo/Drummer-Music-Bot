@@ -7,6 +7,7 @@ const lyricsFinder = require("lyrics-finder");
 module.exports = {
   name: "lyrics",
   aliases: ["ly"],
+  d: "Get lyrics of a song",
   voice: true,
   queue: true,
   /**
