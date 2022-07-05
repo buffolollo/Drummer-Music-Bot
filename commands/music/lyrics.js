@@ -53,31 +53,33 @@ module.exports = {
       content: `Page ${current + 1}/${pages.length}`,
       embeds: [pages[current]],
     });
-    await Embed.react("⬅️");
-    await Embed.react("➡️");
+    if (pages.length > 1) {
+      await Embed.react("⬅️");
+      await Embed.react("➡️");
 
-    let ReactionCol = Embed.createReactionCollector({ filter });
+      let ReactionCol = Embed.createReactionCollector({ filter });
 
-    ReactionCol.on("collect", (reaction, user) => {
-      if (reaction.emoji.name == "➡️") {
-        if (current < pages.length - 1) {
-          current += 1;
-          Embed.edit({
-            content: `Page ${current + 1}/${pages.length}`,
-            embeds: [pages[current]],
-          });
-        }
-      } else {
-        if (reaction.emoji.name == "⬅️") {
-          if (current !== 0) {
-            current -= 1;
+      ReactionCol.on("collect", (reaction, user) => {
+        if (reaction.emoji.name == "➡️") {
+          if (current < pages.length - 1) {
+            current += 1;
             Embed.edit({
               content: `Page ${current + 1}/${pages.length}`,
               embeds: [pages[current]],
             });
           }
+        } else {
+          if (reaction.emoji.name == "⬅️") {
+            if (current != 0) {
+              current -= 1;
+              Embed.edit({
+                content: `Page ${current + 1}/${pages.length}`,
+                embeds: [pages[current]],
+              });
+            }
+          }
         }
-      }
-    });
+      });
+    }
   },
 };
