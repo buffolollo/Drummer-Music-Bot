@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const config = require("./config/config.json");
-const chalk = require("chalk");
+const colors = require("colors/safe")
 const EventEmitter = require("events");
 const intents = new Discord.Intents(32767);
 
@@ -22,14 +22,14 @@ const client = new Discord.Client({
 
 global.client = client;
 global.config = config;
-global.color = chalk;
+global.color = colors;
 
 client.queue = new Map();
 client.commands = new Discord.Collection();
 
 require("./utils/handlers/CommandsHandler")(client, Discord, fs);
 require("./utils/handlers/EventsHandler")(client, Discord, fs);
-require("./utils/handlers/antiCrash")(client)
+require("./utils/handlers/antiCrash")(client);
 require("./database/connection/mongodb");
 
 client.login(config.token);
