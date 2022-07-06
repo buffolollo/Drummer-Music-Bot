@@ -12,10 +12,8 @@ module.exports = {
    * @param {Message} message
    * @param {String[]} args
    */
-  async execute(client, message, args) {
-    const channel = message.member.voice.channel;
-
-    const queue = message.client.queue.get(message.guild.id);
+  async execute(client, message, args, q) {
+    const queue = q.get(message.guild.id);
 
     if (queue.songs.length < 2)
       return message.channel.send({
@@ -36,17 +34,18 @@ module.exports = {
       embeds: [embeds[currentPage]],
     });
     if (queue.songs.length > 11) {
-      await queueEmbed.react("⬅️");
-      await queueEmbed.react("➡️");
+      queueEmbed.react("⬅️");
+      queueEmbed.react("➡️");
     }
     const reactionFilter = (reaction, user) =>
       ["⬅️", "➡️"].includes(reaction.emoji.name) &&
       message.author.id == user.id;
     const collector = queueEmbed.createReactionCollector(reactionFilter);
     collector.on("collect", (reaction, user) => {
-      let queue = message.client.queue.get(message.guild.id);
+      let queue = reaction.client.queue.get(reaction.message.guild.id);
       if (!queue) return collector.stop();
       if (reaction.emoji.name == "➡️") {
+        if (reaction.message.author.bot) return;
         if (currentPage < embeds.length - 1) {
           currentPage += 1;
           queueEmbed.edit({
@@ -59,6 +58,7 @@ module.exports = {
         }
       }
       if (reaction.emoji.name == "⬅️") {
+        if (reaction.message.author.bot) return;
         if (currentPage != 0) {
           currentPage -= 1;
           queueEmbed.edit({
