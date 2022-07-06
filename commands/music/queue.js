@@ -45,7 +45,7 @@ module.exports = {
       let queue = reaction.client.queue.get(reaction.message.guild.id);
       if (!queue) return collector.stop();
       if (reaction.emoji.name == "➡️") {
-        if (reaction.message.author.bot) return;
+        if (user.bot) return;
         if (currentPage < embeds.length - 1) {
           currentPage += 1;
           queueEmbed.edit({
@@ -58,7 +58,7 @@ module.exports = {
         }
       }
       if (reaction.emoji.name == "⬅️") {
-        if (reaction.message.author.bot) return;
+        if (user.bot) return;
         if (currentPage != 0) {
           currentPage -= 1;
           queueEmbed.edit({
