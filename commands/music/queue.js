@@ -75,29 +75,55 @@ module.exports = {
 };
 
 function embedGeneraor(queue) {
+  //let thumbnail = queue.songs[0].thumbnail;
   const embeds = [];
-  let thumbnail = queue.songs[0].thumbnail;
-  let np = queue.songs[0];
-  let songs = 11;
-  for (let i = 1; i < queue.songs.length; i += 10) {
-    const current = queue.songs.slice(i, songs);
-    songs += 10;
-    let j = i;
-    process.setMaxListeners(0);
-    let info = current
-      .map((song) => `${j++}. [${song.name}](${song.url})`)
-      .join("\n");
-    const msg = new MessageEmbed()
-      .setAuthor({
-        name: "Coda",
-        url: "https://img.icons8.com/color/2x/rhombus-loader.gif",
-      })
-      .setThumbnail(thumbnail)
-      .setColor("YELLOW")
-      .setDescription(
-        `Now playing:\n[${np.name}](${np.url})\n\nCoda:\n${info}`
-      );
-    embeds.push(msg);
+  if (queue.songs[0].thumbnail) {
+    let thumbnail = queue.songs[0].thumbnail;
+    let np = queue.songs[0];
+    let songs = 11;
+    for (let i = 1; i < queue.songs.length; i += 10) {
+      const current = queue.songs.slice(i, songs);
+      songs += 10;
+      let j = i;
+      process.setMaxListeners(0);
+      let info = current
+        .map((song) => `${j++}. [${song.name}](${song.url})`)
+        .join("\n");
+      const msg = new MessageEmbed()
+        .setAuthor({
+          name: "Queue",
+          url: "https://img.icons8.com/color/2x/rhombus-loader.gif",
+        })
+        .setThumbnail(thumbnail)
+        .setColor("YELLOW")
+        .setDescription(
+          `Now playing:\n[${np.name}](${np.url})\n\nCoda:\n${info}`
+        );
+      embeds.push(msg);
+    }
+  } else {
+    let np = queue.songs[0];
+    let songs = 11;
+    for (let i = 1; i < queue.songs.length; i += 10) {
+      const current = queue.songs.slice(i, songs);
+      songs += 10;
+      let j = i;
+      process.setMaxListeners(0);
+      let info = current
+        .map((song) => `${j++}. [${song.name}](${song.url})`)
+        .join("\n");
+      const msg = new MessageEmbed()
+        .setAuthor({
+          name: "Queue",
+          url: "https://img.icons8.com/color/2x/rhombus-loader.gif",
+        })
+        //.setThumbnail(thumbnail)
+        .setColor("YELLOW")
+        .setDescription(
+          `Now playing:\n[${np.name}](${np.url})\n\nCoda:\n${info}`
+        );
+      embeds.push(msg);
+    }
   }
   return embeds;
 }

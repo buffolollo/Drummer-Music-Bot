@@ -14,10 +14,8 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  async execute(client, message, args) {
-    const channel = message.member.voice.channel;
-    let queue = message.client.queue.get(message.guild.id);
-    queue.player.stop();
+  async execute(client, message, args, q) {
+    let queue = q.get(message.guild.id);
     message.channel.send({
       embeds: [
         new MessageEmbed()
@@ -25,5 +23,6 @@ module.exports = {
           .setColor("YELLOW"),
       ],
     });
+    return queue.player.stop();
   },
 };
