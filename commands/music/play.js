@@ -225,11 +225,14 @@ module.exports = {
 
     async function videoHandler(ytdata, message, vc, playlist = false) {
       const setAutoplay = (id, obj) => message.client.autoplay.set(id, obj);
+      let autoplay = message.client.autoplay.get(message.guild.id);
       let queue = message.client.queue.get(message.guild.id);
       song = Song(ytdata, message);
       if (!queue) {
         let structure = await Queue(message, channel, setqueue, song);
-        let AP = await Autoplay(message, setAutoplay);
+        if (!autoplay) {
+          let AP = await Autoplay(message, setAutoplay);
+        }
         try {
           let channel = message.member.voice.channel;
           let connection = await joinVoiceChannel({
@@ -261,8 +264,10 @@ module.exports = {
             if (AP.autoplay == true) {
               const AP = message.client.autoplay.get(message.guild.id);
               let video = await ytdl.getInfo(AP.LastSongId);
-              const related = video.related_videos[2].id;
+              const related = video.related_videos[0].id;
               const songinfo = await ytdl.getInfo(related);
+              const AP2 = message.client.autoplay.get(message.guild.id);
+              AP2.LastSongId = songinfo.videoDetails.videoId;
               return videoHandler(songinfo, message, vc);
             }
             data.message.channel.send({
