@@ -246,13 +246,21 @@ module.exports = {
       }
     }
 
-    //PLAY THE YOUTUBESTREAM
+    //PLAY THE YOUTUBE_STREAM
 
     async function _playYTDLStream(track) {
       try {
         let data = message.client.queue.get(message.guild.id);
         if (!track) {
           try {
+            if (data.autoplay == true) {
+              const data = message.client.queue.get(message.guild.id);
+              let video = await ytdl.getInfo(data.LastSongId);
+              const related = video.related_videos[0].id;
+              const ytdata = await ytdl.getInfo(related);
+              const song = Song(ytdata, message);
+              return _playYTDLStream(song);
+            }
             data.message.channel.send({
               embeds: [
                 new MessageEmbed()
