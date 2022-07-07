@@ -133,6 +133,7 @@ module.exports = {
         let q = queue.songs;
         let index = num;
         q.splice(index, 1);
+
         return queue.message.channel.send({
           content: `**Playing** 🎶 \`${track.name}\` - Now!`,
         });

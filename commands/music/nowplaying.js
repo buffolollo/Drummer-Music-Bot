@@ -20,7 +20,7 @@ module.exports = {
    * @returns
    */
   async execute(client, message, args, q) {
-    const queue = message.client.queue.get(message.guild.id);
+    const queue = q.get(message.guild.id);
 
     let currentStreamTime = parseInt(
       queue.player.state.playbackDuration / 1000

@@ -19,6 +19,7 @@ const spotify2 = new Spotify(credentials);
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
 const ytpl = require("ytpl");
+let ytdl = require("discord-ytdl-core");
 
 module.exports = {
   name: "test",
@@ -47,10 +48,10 @@ module.exports = {
 
     const you = "https://youtube.com/playlist?list=PLrZMRV4sCvOplf_NlTAnYIioBLRC4OPXF";
 
-    // getTracks("https://open.spotify.com/playlist/4BFYlk38OIcR483cxm07ZU?si=b57ea99461f94538").then((data) => console.log(data))
+    const video = "https://www.youtube.com/watch?v=9t7yMZhWEIo"
 
-    const data = await ytpl(you);
+    let data = await ytdl.getInfo(video);
 
-    console.log(data.items[5].shortUrl);
+    console.log(data.videoDetails.videoId);
   },
 };
