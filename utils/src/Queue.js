@@ -10,8 +10,6 @@ function createQueue(message, channel, setqueue, song) {
     loopone: false,
     loopall: false,
     songs: [],
-    autoplay: false,
-    LastSongId: String,
     stream: null,
     addTime: 0,
   };

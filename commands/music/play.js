@@ -38,6 +38,7 @@ const addSongToQueue = require("../../utils/src/addSongToQueue");
 const Queue = require("../../utils/src/Queue");
 const Song = require("../../utils/src/Song");
 const play = require("../util/test");
+const Autoplay = require("../../utils/src/Autoplay");
 
 module.exports = {
   name: "play",
@@ -223,10 +224,12 @@ module.exports = {
     //VIDEOHANDLER FOR SONGS
 
     async function videoHandler(ytdata, message, vc, playlist = false) {
+      const setAutoplay = (id, obj) => message.client.autoplay.set(id, obj);
       let queue = message.client.queue.get(message.guild.id);
       song = Song(ytdata, message);
       if (!queue) {
         let structure = await Queue(message, channel, setqueue, song);
+        let AP = await Autoplay(message, setAutoplay);
         try {
           let channel = message.member.voice.channel;
           let connection = await joinVoiceChannel({
@@ -251,15 +254,16 @@ module.exports = {
     async function _playYTDLStream(track) {
       try {
         let data = message.client.queue.get(message.guild.id);
+        const AP = message.client.autoplay.get(message.guild.id);
         if (!track) {
           try {
-            if (data.autoplay == true) {
-              const data = message.client.queue.get(message.guild.id);
-              let video = await ytdl.getInfo(data.LastSongId);
-              const related = video.related_videos[0].id;
-              const ytdata = await ytdl.getInfo(related);
-              const song = Song(ytdata, message);
-              return _playYTDLStream(song);
+            deletequeue(message.guild.id);
+            if (AP.autoplay == true) {
+              const AP = message.client.autoplay.get(message.guild.id);
+              let video = await ytdl.getInfo(AP.LastSongId);
+              const related = video.related_videos[2].id;
+              const songinfo = await ytdl.getInfo(related);
+              return videoHandler(songinfo, message, vc);
             }
             data.message.channel.send({
               embeds: [
@@ -270,7 +274,7 @@ module.exports = {
                   .setColor("RED"),
               ],
             });
-            deletequeue(message.guild.id);
+            //deletequeue(message.guild.id);
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {
               let queue = message.client.queue.get(message.guild.id);
@@ -325,6 +329,7 @@ module.exports = {
           _playYTDLStream(data.songs[0]);
         });
 
+        AP.LastSongId = track.id;
         data.message.channel.send({
           content: `**Playing** 🎶 \`${track.name}\` - Now!`,
         });

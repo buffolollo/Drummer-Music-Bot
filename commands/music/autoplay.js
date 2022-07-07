@@ -16,6 +16,7 @@ module.exports = {
    */
   async execute(client, message, args, q) {
     const queue = q.get(message.guild.id);
+    const AP = message.client.autoplay.get(message.guild.id);
 
     const error = (err) =>
       message.channel.send({
@@ -27,13 +28,12 @@ module.exports = {
         embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
       });
 
-    if (queue.autoplay == false) {
-      queue.LastSongId = queue.songs[0].id;
-      queue.autoplay = true;
+    if (AP.autoplay == false) {
+      AP.autoplay = true;
+      AP.LastSongId = queue.songs[0].id;
       send(`**Autoplay is now ON!**`);
     } else {
-      queue.LastSongId = null;
-      queue.autoplay = false;
+      AP.autoplay = false;
       send(`**Autoplay is now OFF!**`);
     }
   },
