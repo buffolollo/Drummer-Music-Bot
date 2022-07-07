@@ -2,9 +2,13 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const skip = require("./skip");
 const {
-  VoiceConnectionStatus,
   AudioPlayerStatus,
+  joinVoiceChannel,
+  createAudioPlayer,
+  NoSubscriberBehavior,
   createAudioResource,
+  VoiceConnectionStatus,
+  getVoiceConnection,
 } = require("@discordjs/voice");
 
 module.exports = {
@@ -20,9 +24,7 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  async execute(client, message, args) {
-    const channel = message.member.voice.channel;
-
+  async execute(client, message, args, q) {
     const error = (err) =>
       message.channel.send({
         embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
@@ -35,8 +37,9 @@ module.exports = {
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
-    var queue = message.client.queue.get(message.guild.id);
-    var num;
+
+    const queue = q.get(message.guild.id);
+    let num;
 
     if (queue.songs.length < 2)
       return error("There's only the song I'm playing!");
@@ -55,14 +58,14 @@ module.exports = {
       return _playYTDLStream(queue.songs[num]);
     }
 
-    _playYTDLStream(queue.songs[num]);
+    return _playYTDLStream(queue.songs[num]);
 
     async function _playYTDLStream(track) {
       try {
-        const queue = message.client.queue.get(message.guild.id);
+        let data = message.client.queue.get(message.guild.id);
         if (!track) {
           try {
-            queue.message.channel.send({
+            data.message.channel.send({
               embeds: [
                 new MessageEmbed()
                   .setDescription(
@@ -75,15 +78,12 @@ module.exports = {
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {
               let queue = message.client.queue.get(message.guild.id);
-              if (queue) {
-                return;
-              } else {
-                if (message.guild.me.voice.channel) {
-                  const connection = getVoiceConnection(
-                    message.guild.me.voice.channel.guild.id
-                  );
-                  connection.destroy();
-                }
+              if (queue) return;
+              if (message.guild.me.voice.channel) {
+                const connection = getVoiceConnection(
+                  message.guild.me.voice.channel.guild.id
+                );
+                connection.destroy();
               }
             }, interval);
           } catch (error) {
@@ -92,14 +92,14 @@ module.exports = {
           return;
         }
 
-        queue.connection.on(
+        data.connection.on(
           VoiceConnectionStatus.Disconnected,
           async (oldState, newState) => {
+            data.player.stop();
             deletequeue(message.guild.id);
           }
         );
 
-        if (queue.stream) queue.stream.destroy();
         let newStream = await ytdl(track.url, {
           filter: "audioonly",
           quality: "highestaudio",
@@ -107,23 +107,26 @@ module.exports = {
           opusEncoded: true,
         });
 
-        queue.stream = newStream;
+        data.stream = newStream;
+        const player = createAudioPlayer();
         const resource = createAudioResource(newStream, { inlineVolume: true });
-        queue.player.play(resource);
-        resource.volume.setVolumeLogarithmic(queue.volume / 100);
-        queue.resource = resource;
+        resource.volume.setVolumeLogarithmic(data.volume / 100);
+        data.player = player;
+        data.resource = resource;
+        player.play(resource);
+        data.connection.subscribe(player);
 
-        queue.player.on(AudioPlayerStatus.Idle, () => {
-          queue.addTime = 0;
-          if (queue.loopone) {
-            return _playYTDLStream(queue.songs[0]);
-          } else if (queue.loopall) {
-            let removed = queue.songs.shift();
-            queue.songs.push(removed);
+        player.on(AudioPlayerStatus.Idle, () => {
+          data.addTime = 0;
+          if (data.loopone) {
+            return _playYTDLStream(data.songs[0]);
+          } else if (data.loopall) {
+            let removed = data.songs.shift();
+            data.songs.push(removed);
           } else {
-            queue.songs.shift();
+            data.songs.shift();
           }
-          _playYTDLStream(queue.songs[0]);
+          _playYTDLStream(data.songs[0]);
         });
 
         queue.songs[0] = queue.songs[num];

@@ -27,6 +27,13 @@ module.exports = {
     let currentPage = 0;
     const embeds = embedGeneraor(queue);
 
+    if (queue.songs.length < 12) {
+      return message.channel.send({
+        content: `Songs: ${queue.songs.length - 1}`,
+        embeds: [embeds[currentPage]],
+      });
+    }
+
     const queueEmbed = await message.channel.send({
       content: `Songs: ${queue.songs.length - 1}\nQueue page: ${
         currentPage + 1
