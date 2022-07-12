@@ -13,7 +13,7 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  execute(client, message, args) {
+  async execute(client, message, args) {
     const channel = message.member.voice.channel;
     const clientVc = message.guild.me.voice.channel;
 
@@ -29,14 +29,19 @@ module.exports = {
       });
     }
 
-    if (queue) message.client.queue.delete(message.guild.id);
-    try {
-      queue.connection.destroy();
-    } catch (error) {}
+    if (queue) {
+      queue.player.stop();
+      message.client.queue.delete(message.guild.id);
+    }
     const connection = getVoiceConnection(clientVc.guild.id);
-    try {
-      connection.disconnect();
-    } catch (error) {}
+    connection.disconnect();
+    // try {
+    //   queue.connection.disconnect();
+    // } catch (error) {}
+    // const connection = getVoiceConnection(clientVc.guild.id);
+    // try {
+    //   connection.disconnect();
+    // } catch (error) {}
     message.channel.send({
       embeds: [
         new MessageEmbed()
