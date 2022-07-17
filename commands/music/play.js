@@ -182,7 +182,6 @@ module.exports = {
       if (result.length < 1 || !result)
         return error("**I have not found any video!**");
       let songInfo = await yt.getInfo(result[0].url);
-      console.log("a");
       return await videoHandler(songInfo, message, vc);
     }
 
