@@ -37,21 +37,12 @@ module.exports = {
   async execute(client, message, args) {
     let channel = message.member.voice.channel;
     let deletequeue = (id) => message.client.queue.delete(id);
+    console.log("q")
 
-    const query = args[0];
+    const link = "https://open.spotify.com/playlist/03j3TDCMGIACRi5SdcxNT7?si=TYcZ9qXhTd-3V7Hfrgvg-g&utm_source=copy-link"
 
-    const url =
-      "https://open.spotify.com/track/3fjmSxt0PskST13CSdBUFx?si=e420cd3a80834011";
+    const data = await spotify.getData(link);
 
-    const list =
-      "https://open.spotify.com/playlist/4BFYlk38OIcR483cxm07ZU?si=b57ea99461f94538";
-
-    const you = "https://youtube.com/playlist?list=PLrZMRV4sCvOplf_NlTAnYIioBLRC4OPXF";
-
-    const video = "https://www.youtube.com/watch?v=9t7yMZhWEIo"
-
-    let data = await ytdl.getInfo(video);
-
-    console.log(data.videoDetails.videoId);
+    console.log(data.tracks.items.length);
   },
 };

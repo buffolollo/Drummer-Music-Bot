@@ -64,7 +64,6 @@ module.exports = {
     let setqueue = (id, obj) => message.client.queue.set(id, obj);
     let deletequeue = (id) => message.client.queue.delete(id);
     var queue = message.client.queue.get(message.guild.id);
-    var song;
 
     if (!channel.permissionsFor(message.client.user).has("CONNECT"))
       return error("I am not allowed to join the voice channel");
@@ -142,7 +141,7 @@ module.exports = {
       let songInfo = await yt.getInfo(query);
       if (!songInfo)
         return error("**I couldn't find any songs with the provided URL**");
-      return videoHandler(songInfo, message, vc);
+      return await videoHandler(songInfo, message, vc);
     }
 
     if (query.match(spotifySongRegex)) {
@@ -201,13 +200,13 @@ module.exports = {
     if (result.length < 1 || !result)
       return error("**I have not found any video!**");
     let songInfo = await ytdl.getInfo(result[0].url);
-    return videoHandler(songInfo, message, vc);
+    return await videoHandler(songInfo, message, vc);
 
     //VIDEOHANDLER FOR SONGS
 
     async function videoHandler(ytdata, message, vc, playlist = false) {
       let queue = message.client.queue.get(message.guild.id);
-      song = Song(ytdata, message);
+      const song = await Song(ytdata, message);
       if (!queue) {
         let structure = await Queue(message, channel, setqueue, song);
         try {
