@@ -38,7 +38,6 @@ const addSongToQueue = require("../../utils/src/addSongToQueue");
 const Queue = require("../../utils/src/Queue");
 const Song = require("../../utils/src/Song");
 const play = require("../util/test");
-const Autoplay = require("../../utils/src/Autoplay");
 
 module.exports = {
   name: "play",
@@ -116,7 +115,7 @@ module.exports = {
       var interrupt = 0;
       const playlist = await ytpl(query);
       message.channel.send({
-        content: `🔍🎶 **I'm adding the playlist** \`${playlist.title}. Songs: ${playlist.items.length}\` Un attimo...`,
+        content: `🔍🎶 **I'm adding the playlist** \`${playlist.title}. Songs: ${playlist.items.length}\` One moment...`,
       });
       for (let i = 0; i < playlist.items.length; i++) {
         if (!message.guild.me.voice.channel) {
@@ -137,29 +136,12 @@ module.exports = {
         });
       }
       return;
-      // var a = 0;
-      // searcher
-      //   .getPlaylist(query)
-      //   .then((playlist) => playlist.fetch())
-      //   .then(async (playlist) => {
-      //     message.channel.send({
-      //       content: `🔍🎶 **Sto aggiungendo la playlist** \`${playlist.title} | ${playlist.videos.length}\` Un attimo...`,
-      //     });
-      //     playlist.videos.forEach(async (video) => {
-      //       await videoHandler(
-      //         await ytdl.getInfo(video.url),
-      //         message,
-      //         vc,
-      //         true
-      //       );
-      //     });
-      //   });
     }
 
     if (searcher.validate(query, "VIDEO")) {
       let songInfo = await yt.getInfo(query);
       if (!songInfo)
-        return error("**Non ho trovato nessuna canzone con l'URL fornito**");
+        return error("**I couldn't find any songs with the provided URL**");
       return videoHandler(songInfo, message, vc);
     }
 
@@ -170,7 +152,7 @@ module.exports = {
         limit: 1,
       });
       if (result.length < 1 || !result)
-        return error("**Non ho trovato nessun video!**");
+        return error("**I have not found any video!**");
       return await videoHandler(await ytdl.getInfo(result[0].url), message, vc);
     }
 
@@ -178,7 +160,7 @@ module.exports = {
       const playlist = await spotify.getTracks(query);
       const data = await spotify.getData(query);
       message.channel.send({
-        content: `🔍🎶 **I'm adding the playlist** \`${data.name}\` Potrebbe volerci un po...`,
+        content: `🔍🎶 **I'm adding the playlist** \`${data.name}\` It may take a while...`,
       });
       var ForLoop = 0;
       var noResult = 0;
@@ -217,23 +199,25 @@ module.exports = {
 
     let result = await searcher.search(query, { type: "video", limit: 1 });
     if (result.length < 1 || !result)
-      return error("**Non ho trovato nessun video!**");
+      return error("**I have not found any video!**");
     let songInfo = await ytdl.getInfo(result[0].url);
     return videoHandler(songInfo, message, vc);
 
     //VIDEOHANDLER FOR SONGS
 
     async function videoHandler(ytdata, message, vc, playlist = false) {
-      const setAutoplay = (id, obj) => message.client.autoplay.set(id, obj);
-      let autoplay = message.client.autoplay.get(message.guild.id);
       let queue = message.client.queue.get(message.guild.id);
       song = Song(ytdata, message);
       if (!queue) {
         let structure = await Queue(message, channel, setqueue, song);
-        if (!autoplay) {
-          let AP = await Autoplay(message, setAutoplay);
-        }
         try {
+          if (
+            !message.guild.me.voice.channel ||
+            !message.client.queue.get(message.guild.id)
+          ) {
+            // getVoiceConnection(message.guild.id).destroy();
+            return deletequeue(message.guild.id);
+          }
           let channel = message.member.voice.channel;
           let connection = await joinVoiceChannel({
             channelId: channel.id,
@@ -241,12 +225,26 @@ module.exports = {
             adapterCreator: channel.guild.voiceAdapterCreator,
           });
           structure.connection = connection;
+          if (
+            !message.guild.me.voice.channel ||
+            !message.client.queue.get(message.guild.id)
+          ) {
+            getVoiceConnection(message.guild.id).destroy();
+            return deletequeue(message.guild.id);
+          }
           _playYTDLStream(structure.songs[0]);
         } catch (e) {
           console.log(e);
           deletequeue(message.guild.id);
         }
       } else {
+        if (
+          !message.guild.me.voice.channel ||
+          !message.client.queue.get(message.guild.id)
+        ) {
+          message.client.queue.get(message.guild.id).connection.destroy();
+          return deletequeue(message.guild.id);
+        }
         if (playlist) addSongToQueue(ytdata, message, send, true);
         else addSongToQueue(ytdata, message, send);
       }
@@ -257,19 +255,9 @@ module.exports = {
     async function _playYTDLStream(track) {
       try {
         let data = message.client.queue.get(message.guild.id);
-        const AP = message.client.autoplay.get(message.guild.id);
         if (!track) {
           try {
             deletequeue(message.guild.id);
-            if (AP.autoplay == true) {
-              const AP = message.client.autoplay.get(message.guild.id);
-              let video = await ytdl.getInfo(AP.LastSongId);
-              const related = video.related_videos[0].id;
-              const songinfo = await ytdl.getInfo(related);
-              const AP2 = message.client.autoplay.get(message.guild.id);
-              AP2.LastSongId = songinfo.videoDetails.videoId;
-              return videoHandler(songinfo, message, vc);
-            }
             data.message.channel.send({
               embeds: [
                 new MessageEmbed()
@@ -297,6 +285,14 @@ module.exports = {
           return;
         }
 
+        if (
+          !message.guild.me.voice.channel ||
+          !message.client.queue.get(message.guild.id)
+        ) {
+          data.connection.destroy();
+          return deletequeue(message.guild.id);
+        }
+
         data.connection.on(
           VoiceConnectionStatus.Disconnected,
           async (oldState, newState) => {
@@ -321,6 +317,14 @@ module.exports = {
         player.play(resource);
         data.connection.subscribe(player);
 
+        if (
+          !message.guild.me.voice.channel ||
+          !message.client.queue.get(message.guild.id)
+        ) {
+          data.connection.destroy();
+          return deletequeue(message.guild.id);
+        }
+
         player.on(AudioPlayerStatus.Idle, () => {
           data.addTime = 0;
           if (data.loopone) {
@@ -334,7 +338,6 @@ module.exports = {
           _playYTDLStream(data.songs[0]);
         });
 
-        AP.LastSongId = track.id;
         data.message.channel.send({
           content: `**Playing** 🎶 \`${track.name}\` - Now!`,
         });

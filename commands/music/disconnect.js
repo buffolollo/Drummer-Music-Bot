@@ -3,7 +3,7 @@ const { getVoiceConnection } = require("@discordjs/voice");
 
 module.exports = {
   name: "disconnect",
-  aliases: ["dis"],
+  aliases: ["dis", "leave"],
   voice: true,
   d: "Disconnect the bot!",
   /**
@@ -14,7 +14,6 @@ module.exports = {
    * @returns
    */
   async execute(client, message, args) {
-    const channel = message.member.voice.channel;
     const clientVc = message.guild.me.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);
@@ -30,7 +29,9 @@ module.exports = {
     }
 
     if (queue) {
-      queue.player.stop();
+      try {
+        queue.player.stop();
+      } catch (error) {}
       message.client.queue.delete(message.guild.id);
     }
     const connection = getVoiceConnection(clientVc.guild.id);

@@ -25,7 +25,6 @@ global.config = config;
 global.color = colors;
 
 client.queue = new Map();
-client.autoplay = new Map()
 client.commands = new Discord.Collection();
 
 require("./utils/handlers/CommandsHandler")(client, Discord, fs);
