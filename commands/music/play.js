@@ -163,12 +163,7 @@ module.exports = {
           noResult++; // could be used later for skipped tracks due to result not being found //tipo per quanti errori
           continue;
         }
-        await videoHandler(
-          await yt.getInfo(result[0].url),
-          message,
-          vc,
-          true
-        );
+        await videoHandler(await yt.getInfo(result[0].url), message, vc, true);
         ForLoop++;
       }
 
@@ -182,11 +177,14 @@ module.exports = {
       return;
     }
 
-    let result = await searcher.search(query, { type: "video", limit: 1 });
-    if (result.length < 1 || !result)
-      return error("**I have not found any video!**");
-    let songInfo = await yt.getInfo(result[0].url);
-    return await videoHandler(songInfo, message, vc);
+    {
+      let result = await searcher.search(query, { type: "video", limit: 1 });
+      if (result.length < 1 || !result)
+        return error("**I have not found any video!**");
+      let songInfo = await yt.getInfo(result[0].url);
+      console.log("a");
+      return await videoHandler(songInfo, message, vc);
+    }
 
     //VIDEOHANDLER FOR SONGS
 
