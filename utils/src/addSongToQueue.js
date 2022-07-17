@@ -1,11 +1,10 @@
 const { Util, MessageEmbed } = require("discord.js");
 const forHumans = require("./forhumans");
 const Song = require("./Song");
-var song;
 
 async function addSongs(ytdata, message, send, playlist = false) {
   let queue = message.client.queue.get(message.guild.id);
-  song = Song(ytdata, message);
+  const song = await Song(ytdata, message);
 
   queue.songs.push(song);
   if (playlist) return;
