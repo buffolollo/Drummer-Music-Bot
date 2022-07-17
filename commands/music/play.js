@@ -10,34 +10,19 @@ const {
 } = require("@discordjs/voice");
 let ytdl = require("discord-ytdl-core");
 let yt = require("ytdl-core");
-let forHumans = require("../../utils/src/forhumans");
-// const Spotify = require("spotifydl-core").default;
-// const credentials = {
-//   clientId: "3d1908318dd0494a9ae38ef5f195b72d",
-//   clientSecret: "43b78c3812e543288647876e6815da30",
-// };
-// const spotify = new Spotify(credentials);
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
 const searcher = require("youtube-sr").default;
 const ytpl = require("ytpl");
-const spotifyPlaylist = require("../../utils/handlers/spotifyPlaylist");
-const youtubeVideo =
-  /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
-const youtubePlaylist =
-  /^https?:\/\/(www.)?youtube.com\/playlist\?list=((PL|UU|LL|RD|OL)[a-zA-Z0-9-_]{16,41})$/;
 const spotifyPlaylistRegex =
   /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/;
 const spotifySongRegex =
   /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/;
-const DiscordRegex =
-  /https:\/\/cdn.discordapp.com\/attachments\/(\d{17,19})\/(\d{17,19})\/(.+)/;
 const resume = require("./resume");
 const pause = require("./pause");
 const addSongToQueue = require("../../utils/src/addSongToQueue");
 const Queue = require("../../utils/src/Queue");
 const Song = require("../../utils/src/Song");
-const play = require("../util/test");
 
 module.exports = {
   name: "play",
@@ -122,7 +107,7 @@ module.exports = {
           break;
         }
         await videoHandler(
-          await ytdl.getInfo(playlist.items[i].shortUrl),
+          await yt.getInfo(playlist.items[i].shortUrl),
           message,
           vc,
           true
@@ -152,7 +137,8 @@ module.exports = {
       });
       if (result.length < 1 || !result)
         return error("**I have not found any video!**");
-      return await videoHandler(await ytdl.getInfo(result[0].url), message, vc);
+      const songInfo = await yt.getInfo(result[0].url);
+      return await videoHandler(songInfo, message, vc);
     }
 
     if (query.match(spotifyPlaylistRegex)) {
@@ -178,7 +164,7 @@ module.exports = {
           continue;
         }
         await videoHandler(
-          await ytdl.getInfo(result[0].url),
+          await yt.getInfo(result[0].url),
           message,
           vc,
           true
@@ -199,7 +185,7 @@ module.exports = {
     let result = await searcher.search(query, { type: "video", limit: 1 });
     if (result.length < 1 || !result)
       return error("**I have not found any video!**");
-    let songInfo = await ytdl.getInfo(result[0].url);
+    let songInfo = await yt.getInfo(result[0].url);
     return await videoHandler(songInfo, message, vc);
 
     //VIDEOHANDLER FOR SONGS

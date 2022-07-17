@@ -19,6 +19,7 @@ const spotify2 = new Spotify(credentials);
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
 const ytpl = require("ytpl");
+const yt = require("ytdl-core");
 let ytdl = require("discord-ytdl-core");
 
 module.exports = {
@@ -39,10 +40,11 @@ module.exports = {
     let deletequeue = (id) => message.client.queue.delete(id);
     console.log("q")
 
-    const link = "https://open.spotify.com/playlist/03j3TDCMGIACRi5SdcxNT7?si=TYcZ9qXhTd-3V7Hfrgvg-g&utm_source=copy-link"
+    const link = "https://www.youtube.com/watch?v=X-5ACIGzSw0"
 
-    const data = await spotify.getData(link);
+    const data = await yt.getInfo(link)
 
-    console.log(data.tracks.items.length);
+    const s = data.videoDetails.thumbnails
+    console.log(data.videoDetails.lengthSeconds);
   },
 };
