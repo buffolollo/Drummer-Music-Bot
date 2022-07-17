@@ -214,7 +214,6 @@ module.exports = {
             !message.guild.me.voice.channel ||
             !message.client.queue.get(message.guild.id)
           ) {
-            // getVoiceConnection(message.guild.id).destroy();
             return deletequeue(message.guild.id);
           }
           let channel = message.member.voice.channel;
@@ -266,7 +265,6 @@ module.exports = {
                   .setColor("RED"),
               ],
             });
-            //deletequeue(message.guild.id);
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {
               let queue = message.client.queue.get(message.guild.id);
