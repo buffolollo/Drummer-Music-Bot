@@ -1,7 +1,7 @@
 const { Util } = require("discord.js");
 const forHumans = require("./forhumans");
 
-function Song(ytdata, message) {
+async function Song(ytdata, message) {
   const n = parseInt(ytdata.videoDetails.thumbnails.length);
   const song = {
     title: Util.escapeMarkdown(ytdata.videoDetails.title),
