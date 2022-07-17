@@ -44,23 +44,27 @@ module.exports = {
       return;
     }
 
-    if (cmd.voice && !message.member.voice.channel) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setDescription("**You must be in a voice channel** :x:")
-            .setColor("RED"),
-        ],
-      });
-      // if (message.member.voice.channel != message.guild.me.voice.channel) {
-      //   return message.channel.send({
-      //     embeds: [
-      //       new MessageEmbed()
-      //         .setDescription("**You are not in the same voice channel** :x:")
-      //         .setColor("RED"),
-      //     ],
-      //   });
-      // }
+    if (cmd.voice) {
+      if (!message.member.voice.channel) {
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setDescription("**You must be in a voice channel** :x:")
+              .setColor("RED"),
+          ],
+        });
+      }
+      if (message.guild.me.voice.channel) {
+        if (message.member.voice.channel != message.guild.me.voice.channel) {
+          return message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setDescription("**You are not in the same voice channel** :x:")
+                .setColor("RED"),
+            ],
+          });
+        }
+      }
     }
 
     if (cmd.queue && !message.client.queue.get(message.guild.id)) {
