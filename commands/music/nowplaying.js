@@ -42,6 +42,7 @@ module.exports = {
           .setThumbnail(thumbnail)
           .setColor("GREEN")
           .addField("Name", `[${song.name}](${song.url})`)
+          .addField("Artist", `${song.author}`)
           .addField("Views", `${song.views}`)
           .addField("Requested by", `${song.requested}`)
           .addField(
