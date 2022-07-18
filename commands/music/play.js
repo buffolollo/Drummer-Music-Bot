@@ -101,7 +101,10 @@ module.exports = {
 
     let vc = message.member.voice.channel;
 
-    if (searcher.validate(query, "PLAYLIST_ID")) {
+    if (
+      searcher.validate(query, "PLAYLIST_ID") ||
+      query.match(youtubePlaylist)
+    ) {
       const playlist = searcher.getPlaylist(query);
       var a = 0;
       playlist

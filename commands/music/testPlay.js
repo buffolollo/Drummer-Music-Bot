@@ -8,11 +8,13 @@ const {
   VoiceConnectionStatus,
 } = require("@discordjs/voice");
 const { Client, Message, MessageEmbed } = require("discord.js");
+let ytdl = require("discord-ytdl-core");
+let yt = require("ytdl-core");
+let spotify = require("spotify-url-info");
 
 module.exports = {
-  name: "test",
-  aliases: ["t"],
-  voice: true,
+  name: "testplay",
+  aliases: ["tp"],
   staff: true,
   d: "Riproduci una canzone!",
   /**
@@ -23,24 +25,12 @@ module.exports = {
    * @returns
    */
   async execute(client, message, args) {
-    let channel = message.member.voice.channel;
-    let deletequeue = (id) => message.client.queue.delete(id);
-    const connection = joinVoiceChannel({
-      channelId: channel.id,
-      guildId: channel.guild.id,
-      adapterCreator: channel.guild.voiceAdapterCreator,
-    });
-    const player = createAudioPlayer();
-    const resource = createAudioResource("1.mp3");
-    const resource2 = createAudioResource("2.mp3");
-    player.play(resource);
-    connection.subscribe(player);
-    message.channel.send({
-      content: "Playing sas",
-      embeds: [new MessageEmbed().setDescription("Yes!")],
-    });
-    setTimeout(() => {
-      console.log(player.state.playbackDuration);
-    }, 5000);
+
+    const link = "https://www.youtube.com/watch?v=-H5w_1K1Vlw"
+
+    const data = await yt.getInfo(link);
+
+    let n = data.videoDetails.thumbnails.length
+    console.log(data.videoDetails.thumbnails[n - 1].url)
   },
 };
