@@ -20,15 +20,12 @@ module.exports = {
 
     MC.status(IP, parseInt(Port))
       .then((response) => {
-        Embed.setDescription(
-          `> Server IP: \`devvolt.dev\`\n> Server Port: \`${parseInt(
-            Port
-          )}\`\n> Server Motd: \`${response.motd.clean}\`\n> Server Players: \`${
-            response.players.online
-          }\`\n> Server Max Players\`${
-            response.players.max
-          }\`\n> Server Version: \`${response.version.name}\``
-        );
+        Embed.addField("Server IP:", `\`devvolt.dev\``)
+          .addField("Server Port:", `\`${Port}\``)
+          .addField("Server MOTD:", `\`${response.motd.clean}\``)
+          .addField("Server Players:", `\`${response.players.online}\``)
+          .addField("Server Max Players:", `\`${response.players.max}\``)
+          .addField("Server Version:", `\`${response.version.name}\``);
         message.channel.send({ embeds: [Embed] });
       })
       .catch((err) => {
