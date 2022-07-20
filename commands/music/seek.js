@@ -104,13 +104,6 @@ module.exports = {
           return;
         }
 
-        queue.connection.on(
-          VoiceConnectionStatus.Disconnected,
-          async (oldState, newState) => {
-            deletequeue(message.guild.id);
-          }
-        );
-
         let newStream = await ytdl(track.url, {
           filter: "audioonly",
           quality: "highestaudio",

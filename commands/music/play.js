@@ -273,14 +273,6 @@ module.exports = {
           return deletequeue(message.guild.id);
         }
 
-        data.connection.on(
-          VoiceConnectionStatus.Disconnected,
-          async (oldState, newState) => {
-            data.player.stop();
-            deletequeue(message.guild.id);
-          }
-        );
-
         let newStream = await ytdl(track.url, {
           filter: "audioonly",
           quality: "highestaudio",
