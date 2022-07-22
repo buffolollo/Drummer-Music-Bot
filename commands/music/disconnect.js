@@ -29,9 +29,7 @@ module.exports = {
     }
 
     if (queue) {
-      try {
-        queue.player.stop();
-      } catch (error) {}
+      queue.player.stop();
       message.client.queue.delete(message.guild.id);
     }
     const connection = getVoiceConnection(clientVc.guild.id);
