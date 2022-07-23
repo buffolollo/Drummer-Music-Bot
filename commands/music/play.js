@@ -178,10 +178,10 @@ module.exports = {
     }
 
     {
-      let result = await searcher.search(query, { type: "video", limit: 1 });
+      const result = await searcher.search(query, { type: "video", limit: 1 });
       if (result.length < 1 || !result)
         return error("**I have not found any video!**");
-      let songInfo = await yt.getInfo(result[0].url);
+      const songInfo = await yt.getInfo(result[0].url);
       return await videoHandler(songInfo, message, vc);
     }
 

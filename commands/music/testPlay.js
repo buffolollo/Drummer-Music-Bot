@@ -10,6 +10,7 @@ const {
 const fs = require("fs");
 const { Client, Message, MessageEmbed } = require("discord.js");
 const Spotify = require("spotifydl-core").default;
+const ytsr = require("youtube-sr").default
 const credentials = {
   clientId: "3d1908318dd0494a9ae38ef5f195b72d",
   clientSecret: "43b78c3812e543288647876e6815da30",
@@ -23,7 +24,7 @@ const yt = require("ytdl-core");
 let ytdl = require("discord-ytdl-core");
 
 module.exports = {
-  name: "test",
+  name: "testplay",
   aliases: ["tp"],
   // voice: true,
   staff: true,
@@ -42,9 +43,8 @@ module.exports = {
 
     const link = "https://www.youtube.com/watch?v=X-5ACIGzSw0"
 
-    const data = await yt.getInfo(link)
+    const data = await ytsr.search(link, { type: "video", limit: 1 })
 
-    const s = data.videoDetails.thumbnails
-    console.log(data.videoDetails.lengthSeconds);
+    console.log(data[0]);
   },
 };
