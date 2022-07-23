@@ -9,13 +9,7 @@ const {
 } = require("@discordjs/voice");
 const fs = require("fs");
 const { Client, Message, MessageEmbed } = require("discord.js");
-const Spotify = require("spotifydl-core").default;
 const ytsr = require("youtube-sr").default
-const credentials = {
-  clientId: "3d1908318dd0494a9ae38ef5f195b72d",
-  clientSecret: "43b78c3812e543288647876e6815da30",
-};
-const spotify2 = new Spotify(credentials);
 // const { getData, getPreview, getTracks, getDetails } = require("spotify-url-info")(fetch);
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
