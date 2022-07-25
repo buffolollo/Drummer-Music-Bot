@@ -27,8 +27,8 @@ global.color = colors;
 client.queue = new Map();
 client.commands = new Discord.Collection();
 
-require("./utils/handlers/CommandsHandler")(client, Discord, fs);
-require("./utils/handlers/EventsHandler")(client, Discord, fs);
+require("./utils/handlers/CommandsHandler")(client);
+require("./utils/handlers/EventsHandler")(client);
 require("./utils/handlers/antiCrash")(client);
 require("./database/connection/mongodb");
 

@@ -1,4 +1,5 @@
-module.exports = (client, Discord, fs) => {
+const fs = require("fs");
+module.exports = (client) => {
   const commandFolder = fs.readdirSync(`./commands`);
   for (const folder of commandFolder) {
     const commandFiles = fs
