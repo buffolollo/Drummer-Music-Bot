@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const fs = require("fs");
 const config = require("./config/config.json");
 const colors = require("colors/safe")
 const EventEmitter = require("events");
