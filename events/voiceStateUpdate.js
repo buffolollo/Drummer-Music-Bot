@@ -13,8 +13,8 @@ module.exports = {
         const queue = oldstate.client.queue.get(oldstate.guild.id)
         const deletequeue = (id) => oldstate.client.queue.delete(id);
         if(oldstate.channelId && !newstate.channel){
-            queue.player.stop();
-            deletequeue(oldstate.guild.id);
+            if(queue.player) queue.player.stop();
+            if (queue) deletequeue(oldstate.guild.id);
         }
     }
 }
