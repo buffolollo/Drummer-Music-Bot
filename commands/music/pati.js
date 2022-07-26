@@ -8,8 +8,8 @@ const {
 } = require("@discordjs/voice");
 
 module.exports = {
-  name: "playmp3",
-  aliases: ["p3"],
+  name: "pati",
+  aliases: [],
   voice: true,
   d: "Play a music of a discod attachment link",
   /**
@@ -41,15 +41,15 @@ module.exports = {
     });
 
     const player = createAudioPlayer();
-    const resource = createAudioResource("../../music/", { inlineVolume: true });
+    const resource = createAudioResource("../../music/pati.mp3", { inlineVolume: true });
     player.play(resource);
     connection.subscribe(player);
     resource.volume.setVolumeLogarithmic(100 / 100);
 
-    send(`I'm playing the sound!`);
+    send(`**PATI IS STARTING PLAYING THE BEST SONG EVER!**`);
 
     player.on(AudioPlayerStatus.Idle, () => {
-      send("Finished audio!")
+      send("Pati has finished😭!")
       connection.disconnect()
     })
   },
