@@ -36,25 +36,13 @@ module.exports = {
     var time;
 
     time = args[0];
-    if (isNaN(time))
-      return send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription("Please enter a valid number!")
-            .setColor("RED"),
-        ],
-      });
+    if (isNaN(time)) return error(message, "Please enter a valid number!");
 
     if (queue.paused == true)
-      return send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(
-              "To keep the song going, you have to pick it up again"
-            )
-            .setColor("YELLOW"),
-        ],
-      });
+      return error(
+        message,
+        "To keep the song going, you have to pick it up again"
+      );
 
     let queue2 = message.client.queue.get(message.guild.id);
     let or = time * 1000;
@@ -77,15 +65,10 @@ module.exports = {
         const queue = message.client.queue.get(message.guild.id);
         if (!track) {
           try {
-            queue.message.channel.send({
-              embeds: [
-                new EmbedBuilder()
-                  .setDescription(
-                    "**The queue is empty, there are no more songs to play!**"
-                  )
-                  .setColor("RED"),
-              ],
-            });
+            error(
+              queue.message,
+              "**The queue is empty, there are no more songs to play!**"
+            );
             deletequeue(message.guild.id);
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {
@@ -141,13 +124,7 @@ module.exports = {
           });
         }
 
-        queue.message.channel.send({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(`**I brought the song to ${time} seconds!**`)
-              .setColor("GREEN"),
-          ],
-        });
+        send(queue.message, `**I brought the song to ${time} seconds!**`);
       } catch (e) {
         console.error(e);
       }

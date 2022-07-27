@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const send = require("../../utils/src/send");
 
 module.exports = {
   name: "resume",
@@ -12,20 +13,14 @@ module.exports = {
     let queue = message.client.queue.get(message.guild.id);
 
     if (queue.paused == false)
-      return message.channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(":x: This song is already playing.")
-            .setColor("GREEN"),
-        ],
-      });
+      return send(message, ":x: This song is already playing.");
     queue.player.unpause();
     queue.paused = false;
     return message.channel.send({
       embeds: [
         new EmbedBuilder()
           .setDescription("**Song resumed :white_check_mark:**")
-          .setColor("GREEN"),
+          .setColor(0x006400),
       ],
     });
   },

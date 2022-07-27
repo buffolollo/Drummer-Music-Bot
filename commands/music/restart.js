@@ -28,16 +28,6 @@ module.exports = {
 
     const channel = message.member.voice.channel;
 
-    const error = (err) =>
-      message.channel.send(
-        new EmbedBuilder().setColor("RED").setDescription(err)
-      );
-
-    const send = (content) =>
-      message.channel.send(
-        new EmbedBuilder().setDescription(content).setColor("GREEN")
-      );
-
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
 
@@ -46,18 +36,12 @@ module.exports = {
     async function _playYTDLStream(track) {
       try {
         const queue = message.client.queue.get(message.guild.id);
-
         if (!track) {
           try {
-            queue.message.channel.send({
-              embeds: [
-                new EmbedBuilder()
-                  .setDescription(
-                    "**The queue is empty, there are no more songs to play!**"
-                  )
-                  .setColor("RED"),
-              ],
-            });
+            error(
+              queue.message,
+              "**The queue is empty, there are no more songs to play!**"
+            );
             deletequeue(message.guild.id);
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {

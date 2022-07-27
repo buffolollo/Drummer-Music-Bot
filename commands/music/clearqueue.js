@@ -16,14 +16,6 @@ module.exports = {
   async execute(client, message, args) {
     let queue = message.client.queue.get(message.guild.id);
     queue.songs = [];
-    return message.channel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            "**Queue cleared :white_check_mark: **"
-          )
-          .setColor("GREEN"),
-      ],
-    });
+    return send(message, "**Queue cleared :white_check_mark: **");
   },
 };

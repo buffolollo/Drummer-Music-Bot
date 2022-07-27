@@ -2,6 +2,7 @@ const { Client, Message, EmbedBuilder, Collection } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const ytsr = require("yt-search");
 const yt = require("ytdl-core");
+const send = require("../../utils/src/send");
 const alreadyCollector = new Collection();
 
 module.exports = {
@@ -22,16 +23,6 @@ module.exports = {
 
     const queue = message.client.queue.get(message.guild.id);
 
-    const error = (err) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
-      });
-
-    const send = (content) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
-      });
-
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
 
@@ -44,7 +35,7 @@ module.exports = {
         resp += `**[${parseInt(i) + 1}]:** \`${videos[i].title}\`\n`;
       }
       resp += `\nChoose a number from \`1-${videos.length}\``;
-      send(resp);
+      send(message, resp);
       const filter = (m) =>
         !isNaN(m.content) &&
         m.content < videos.length + 1 &&

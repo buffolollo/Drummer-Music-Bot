@@ -16,33 +16,20 @@ module.exports = {
   async execute(client, message, args) {
     const channel = message.member.voice.channel;
 
-    const error = (content) =>
-      message.channel.send({
-        embeds: [
-          new EmbedBuilder().setDescription(`**${content}**`).setColor("RED"),
-        ],
-      });
-
     let queue = message.client.queue.get(message.guild.id);
 
     if (queue.songs.length < 2)
-      return error("There's only the song I'm playing!");
+      return error(message, "There's only the song I'm playing!");
 
     let num = parseInt(args[0]);
-    if (isNaN(num)) return error("Please enter a valid number!");
+    if (isNaN(num)) return error(message, "Please enter a valid number!");
 
-    if (num == 0) return error("**You cannot enter the number 0!**");
+    if (num == 0) return error(message, "**You cannot enter the number 0!**");
 
     if (!queue.songs[num])
-      return error("I didn't find the song number in the queue!");
+      return error(message, "I didn't find the song number in the queue!");
 
-    message.channel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(`**Song removed: \`${queue.songs[num].name}\`!**`)
-          .setColor("GREEN"),
-      ],
-    });
+    send(message, `**Song removed: \`${queue.songs[num].name}\`!**`);
 
     let q = queue.songs;
     let index = num;

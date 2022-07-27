@@ -1,4 +1,5 @@
 const { EmbedBuilder, Client, Message } = require("discord.js");
+const send = require("../../utils/src/send");
 
 module.exports = {
   //^<>&
@@ -16,13 +17,7 @@ module.exports = {
    */
   async execute(client, message, args, q) {
     let queue = q.get(message.guild.id);
-    message.channel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription("**Song skipped :white_check_mark: **")
-          .setColor("YELLOW"),
-      ],
-    });
+    send(message, "**Song skipped :white_check_mark: **");
     return queue.player.stop();
   },
 };

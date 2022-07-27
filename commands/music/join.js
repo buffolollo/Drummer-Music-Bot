@@ -19,16 +19,6 @@ module.exports = {
 
     let queue = message.client.queue.get(message.guild.id);
 
-    const error = (err) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
-      });
-
-    const send = (content) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
-      });
-
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
 

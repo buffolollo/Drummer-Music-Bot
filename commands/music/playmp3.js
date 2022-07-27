@@ -21,16 +21,6 @@ module.exports = {
   async execute(client, message, args) {
     const channel = message.member.voice.channel;
 
-    const error = (err) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
-      });
-
-    const send = (content) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
-      });
-
     const query = args[0];
 
     if (!query) return error("Insert a link to a discord video or song");
@@ -46,7 +36,7 @@ module.exports = {
     connection.subscribe(player);
     resource.volume.setVolumeLogarithmic(100 / 100);
 
-    send(`I'm playing the sound!`);
+    send(message, `I'm playing the sound!`);
 
     player.on(AudioPlayerStatus.Idle, () => {
       send("Finished audio!")

@@ -19,18 +19,6 @@ module.exports = {
     let queue = message.client.queue.get(message.guild.id);
 
     const channel = message.member.voice.channel;
-    const error = (err) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
-      });
-
-    const send = (content) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
-      });
-
-    const setqueue = (id, obj) => message.client.queue.set(id, obj);
-    const deletequeue = (id) => message.client.queue.delete(id);
 
     message.author
       .send({
@@ -43,11 +31,12 @@ module.exports = {
             .setTitle(queue.songs[0].title)
             .setDescription(queue.songs[0].url)
             .setThumbnail(queue.songs[0].thumbnail)
-            .setColor("DARK_GREEN"),
+            .setColor(0x006400),
         ],
       })
       .catch((err) => {
         error(
+          message,
           `**I can't send you the song!\nProbably you may have disabled the dms!**\nError: ${err}`
         );
       });

@@ -1,6 +1,7 @@
 const { EmbedBuilder, Client, Message } = require("discord.js");
 const { getVoiceConnection } = require("@discordjs/voice");
 const { get } = require("quick.db");
+const send = require("../../utils/src/send");
 
 module.exports = {
   name: "stop",
@@ -17,20 +18,14 @@ module.exports = {
    */
   async execute(client, message, args) {
     const channel = message.member.voice.channel;
-    const clientVc = message.guild.me.voice.channel
+    const clientVc = message.guild.me.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);
 
     queue.player.stop();
     message.client.queue.delete(message.guild.id);
 
-    message.channel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription("**Music stopped :white_check_mark: **")
-          .setColor("YELLOW"),
-      ],
-    });
+    send(message, "**Music stopped :white_check_mark: **");
 
     var interval = config.leaveOnStop * 1000;
 
@@ -39,9 +34,9 @@ module.exports = {
       if (queue) {
         return;
       } else {
-        if (message.guild.me.voice.channel){
-          const connection = getVoiceConnection(clientVc.guild.id)
-          connection.disconnect()
+        if (message.guild.me.voice.channel) {
+          const connection = getVoiceConnection(clientVc.guild.id);
+          connection.disconnect();
         }
       }
     }, interval);

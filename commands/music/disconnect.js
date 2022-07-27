@@ -19,13 +19,7 @@ module.exports = {
     let queue = message.client.queue.get(message.guild.id);
 
     if (!message.guild.me.voice.channel) {
-      return message.channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription("I am already logged out!")
-            .setColor("RED"),
-        ],
-      });
+      return send(message, "I am already logged out!");
     }
 
     if (queue) {
@@ -41,12 +35,6 @@ module.exports = {
     // try {
     //   connection.disconnect();
     // } catch (error) {}
-    message.channel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription("📭 **I have disconnected!**")
-          .setColor("GREEN"),
-      ],
-    });
+    send(message, "📭 **I have disconnected!**");
   },
 };

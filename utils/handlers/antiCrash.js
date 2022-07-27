@@ -14,7 +14,7 @@ module.exports = (client) => {
     const ErrorEmbed = new EmbedBuilder()
       .setTitle("Error")
       .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
-      .setColor("#2F3136")
+      .setColor(0xff0000)
       .setDescription(`\`\`\`${inspect(error, { depth: 0 })}\`\`\``)
 
       .setTimestamp();
@@ -35,15 +35,20 @@ module.exports = (client) => {
     const unhandledRejectionEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Unhandled Rejection/Catch 🟥**")
       .setURL("https://nodejs.org/api/process.html#event-unhandledrejection")
-      .setColor("RED")
-      .addField(
-        "Reason",
-        `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
-      .addField(
-        "Promise",
-        `\`\`\`${inspect(p, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
+      .setColor(0xff0000)
+      .addFields([
+        {
+          name: "Reason",
+          value: `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(
+            0,
+            1000
+          ),
+        },
+        {
+          name: "Promise",
+          value: `\`\`\`${inspect(p, { depth: 0 })}\`\`\``.substring(0, 1000),
+        },
+      ])
       .setTimestamp();
     return s.send({
       embeds: [unhandledRejectionEmbed],
@@ -57,16 +62,21 @@ module.exports = (client) => {
     reload(client);
     const uncaughtExceptionEmbed = new EmbedBuilder()
       .setTitle("**🟥There was an Uncaught Exception/Catch 🟥**")
-      .setColor("RED")
+      .setColor(0xff0000)
       .setURL("https://nodejs.org/api/process.html#event-uncaughtexception")
-      .addField(
-        "Error",
-        `\`\`\`${inspect(err, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
-      .addField(
-        "Origin",
-        `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
+      .addFields([
+        {
+          name: "Error",
+          value: `\`\`\`${inspect(err, { depth: 0 })}\`\`\``.substring(0, 1000),
+        },
+        {
+          name: "Origin",
+          value: `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(
+            0,
+            1000
+          ),
+        },
+      ])
       .setTimestamp();
     return s.send({
       embeds: [uncaughtExceptionEmbed],
@@ -80,18 +90,24 @@ module.exports = (client) => {
     reload(client);
     const uncaughtExceptionMonitorEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Uncaught Exception Monitor 🟥**")
-      .setColor("RED")
+      .setColor(0xff0000)
       .setURL(
         "https://nodejs.org/api/process.html#event-uncaughtexceptionmonitor"
       )
-      .addField(
-        "Error",
-        `\`\`\`${inspect(err, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
-      .addField(
-        "Origin",
-        `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
+      .addFields([
+        {
+          name: "Error",
+          value: `\`\`\`${inspect(err, { depth: 0 })}\`\`\``.substring(0, 1000),
+        },
+        {
+          name: "Origin",
+          value: `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(
+            0,
+            1000
+          ),
+        },
+      ])`\`\`${inspect(origin, { depth: 0 })}\`\`\``
+      .substring(0, 1000)
 
       .setTimestamp();
 
@@ -108,19 +124,30 @@ module.exports = (client) => {
     const multipleResolvesEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Multiple Resolve 🟥**")
       .setURL("https://nodejs.org/api/process.html#event-multipleresolves")
-      .setColor("RED")
-      .addField(
-        "Type",
-        `\`\`\`${inspect(type, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
-      .addField(
-        "Promise",
-        `\`\`\`${inspect(promise, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
-      .addField(
-        "Reason",
-        `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(0, 1000)
-      )
+      .setColor(0xff0000)
+      .addFields([
+        {
+          name: "Type",
+          value: `\`\`\`${inspect(type, { depth: 0 })}\`\`\``.substring(
+            0,
+            1000
+          ),
+        },
+        {
+          name: "Promise",
+          value: `\`\`\`${inspect(promise, { depth: 0 })}\`\`\``.substring(
+            0,
+            1000
+          ),
+        },
+        {
+          name: "Reason",
+          value: `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(
+            0,
+            1000
+          ),
+        },
+      ])
       .setTimestamp();
     return s.send({
       embeds: [multipleResolvesEmbed],
@@ -134,12 +161,17 @@ module.exports = (client) => {
     reload(client);
     const warningEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Uncaught Exception Monitor Warning 🟥**")
-      .setColor("RED")
+      .setColor(0xff0000)
       .setURL("https://nodejs.org/api/process.html#event-warning")
-      .addField(
-        "Warn",
-        `\`\`\`${inspect(warn, { depth: 0 }).substring(0, 1000)}\`\`\``
-      )
+      .addFields([
+        {
+          name: "Warn",
+          value: `\`\`\`${inspect(warn, { depth: 0 }).substring(
+            0,
+            1000
+          )}\`\`\``,
+        },
+      ])
       .setTimestamp();
     return s.send({
       embeds: [warningEmbed],

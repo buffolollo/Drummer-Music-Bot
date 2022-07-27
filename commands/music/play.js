@@ -63,7 +63,7 @@ module.exports = {
     }
 
     let query = args.join(" ");
-    if (!query) return error("**You didn't give me a song to play!**");
+    if (!query) return error(message, "**You didn't give me a song to play!**");
 
     if (!message.guild.me.voice.channel) {
       joinVoiceChannel({
@@ -71,14 +71,10 @@ module.exports = {
         guildId: channel.guild.id,
         adapterCreator: channel.guild.voiceAdapterCreator,
       });
-      message.channel.send({
-        content: `**👍 Joined** \`${channel.name}\``,
-      });
+      send(message, `**👍 Joined** \`${channel.name}\``);
     }
 
-    message.channel.send({
-      content: `🔎 **Searching** \`${args.join(" ")}\``,
-    });
+    send(message, `🔎 **Searching** \`${args.join(" ")}\``);
 
     setInterval(() => {
       if (message.guild.me.voice.channel)
@@ -108,9 +104,10 @@ module.exports = {
         a++;
       }
       if (interrupt == 0) {
-        return send({
-          content: `**Youtube playlist: \`${playlist.title}\` has been added! | Songs: \`${a}\`**`,
-        });
+        return send(
+          message,
+          `**Youtube playlist: \`${playlist.title}\` has been added! | Songs: \`${a}\`**`
+        );
       }
       return;
     }
@@ -118,7 +115,10 @@ module.exports = {
     if (searcher.validate(query, "VIDEO")) {
       let songInfo = await yt.getInfo(query);
       if (!songInfo)
-        return error("**I couldn't find any songs with the provided URL**");
+        return error(
+          message,
+          "**I couldn't find any songs with the provided URL**"
+        );
       return await videoHandler(songInfo, message, vc);
     }
 
@@ -129,7 +129,7 @@ module.exports = {
         limit: 1,
       });
       if (result.length < 1 || !result)
-        return error("**I have not found any video!**");
+        return error(message, "**I have not found any video!**");
       const songInfo = await yt.getInfo(result[0].url);
       return await videoHandler(songInfo, message, vc);
     }
@@ -163,9 +163,10 @@ module.exports = {
       const playlistLength = ForLoop - noResult;
 
       if (interrupt == 0) {
-        return send({
-          content: `**Spotify playlist: \`${data.name}\` has been added! | Songs: \`${playlistLength}\`**`,
-        });
+        return send(
+          message,
+          `**Spotify playlist: \`${data.name}\` has been added! | Songs: \`${playlistLength}\`**`
+        );
       }
       return;
     }
@@ -173,7 +174,7 @@ module.exports = {
     {
       const result = await searcher.search(query, { type: "video", limit: 1 });
       if (result.length < 1 || !result)
-        return error("**I have not found any video!**");
+        return error(message, "**I have not found any video!**");
       const songInfo = await yt.getInfo(result[0].url);
       return await videoHandler(songInfo, message, vc);
     }
@@ -238,7 +239,7 @@ module.exports = {
                   .setDescription(
                     "**The queue is empty, there are no more songs to play!**"
                   )
-                  .setColor("#FF0000"),
+                  .setColor(0xFF0000),
               ],
             });
             var interval = config.leaveOnEndQueue * 1000;

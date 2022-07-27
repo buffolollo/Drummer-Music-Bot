@@ -41,7 +41,7 @@ module.exports = {
       let page = new EmbedBuilder()
         .setTitle(`${queue.songs[0].title}`)
         .setDescription(lyrics)
-        .setColor("DARK_GREEN")
+        .setColor(0x006400)
         .setTimestamp()
         .setThumbnail(queue.songs[0].thumbnail);
       pages.push(page);

@@ -25,15 +25,6 @@ module.exports = {
    * @returns
    */
   async execute(client, message, args, q) {
-    const error = (err) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
-      });
-
-    const send = (content) =>
-      message.channel.send({
-        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
-      });
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
@@ -42,12 +33,12 @@ module.exports = {
     let num;
 
     if (queue.songs.length < 2)
-      return error("There's only the song I'm playing!");
+      return error(message, "There's only the song I'm playing!");
 
     num = parseInt(args[0]);
-    if (isNaN(num)) return error("Please enter a valid number!");
+    if (isNaN(num)) return error(message, "Please enter a valid number!");
 
-    if (num == 0) return error("**You cannot enter the number 0!**");
+    if (num == 0) return error(message, "**You cannot enter the number 0!**");
 
     if (num == 1) {
       skip.execute(client, message, args);
@@ -65,15 +56,7 @@ module.exports = {
         let data = message.client.queue.get(message.guild.id);
         if (!track) {
           try {
-            data.message.channel.send({
-              embeds: [
-                new EmbedBuilder()
-                  .setDescription(
-                    "**The queue is empty, there are no more songs to play!**"
-                  )
-                  .setColor("RED"),
-              ],
-            });
+            send(data.message, "**The queue is empty, there are no more songs to play!**");
             deletequeue(message.guild.id);
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {

@@ -20,21 +20,9 @@ module.exports = {
     let queue = message.client.queue.get(message.guild.id);
 
     if (queue.paused == true)
-      return message.channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(":x: This song is already paused.")
-            .setColor("RED"),
-        ],
-      });
+      return error(message, ":x: This song is already paused.");
     queue.player.pause();
     queue.paused = true;
-    return message.channel.send({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription("**Song paused :white_check_mark:**")
-          .setColor("GREEN"),
-      ],
-    });
+    return send(message, "**Song paused :white_check_mark:**");
   },
 };

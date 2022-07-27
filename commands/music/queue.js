@@ -16,13 +16,7 @@ module.exports = {
     const queue = q.get(message.guild.id);
 
     if (queue.songs.length < 2)
-      return message.channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription("There is no queue after this song")
-            .setColor("YELLOW"),
-        ],
-      });
+      return error(message, "There is no queue after this song");
 
     let currentPage = 0;
     const embeds = embedGeneraor(queue);
@@ -99,7 +93,7 @@ function embedGeneraor(queue) {
         url: "https://img.icons8.com/color/2x/rhombus-loader.gif",
       })
       .setThumbnail(thumbnail)
-      .setColor("YELLOW")
+      .setColor(0x006400)
       .setDescription(
         `Now playing:\n[${np.name}](${np.url})\n\nCoda:\n${info}`
       );

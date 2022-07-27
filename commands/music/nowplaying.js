@@ -40,7 +40,7 @@ module.exports = {
             iconURL: "https://img.icons8.com/color/2x/rhombus-loader.gif",
           })
           .setThumbnail(thumbnail)
-          .setColor("GREEN")
+          .setColor(0x006400)
           .addField("Name", `[${song.name}](${song.url})`)
           .addField("Artist", `${song.author}`)
           .addField("Views", `${song.views}`)
