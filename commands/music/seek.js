@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message, Util } = require("discord.js");
+const { EmbedBuilder, Client, Message, Util } = require("discord.js");
 const {
   createAudioPlayer,
   VoiceConnectionStatus,
@@ -39,7 +39,7 @@ module.exports = {
     if (isNaN(time))
       return send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription("Please enter a valid number!")
             .setColor("RED"),
         ],
@@ -48,7 +48,7 @@ module.exports = {
     if (queue.paused == true)
       return send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription(
               "To keep the song going, you have to pick it up again"
             )
@@ -79,7 +79,7 @@ module.exports = {
           try {
             queue.message.channel.send({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setDescription(
                     "**The queue is empty, there are no more songs to play!**"
                   )
@@ -143,7 +143,7 @@ module.exports = {
 
         queue.message.channel.send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setDescription(`**I brought the song to ${time} seconds!**`)
               .setColor("GREEN"),
           ],

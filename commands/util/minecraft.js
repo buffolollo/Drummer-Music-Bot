@@ -1,4 +1,4 @@
-const { Message, Client, MessageEmbed } = require("discord.js");
+const { Message, Client, EmbedBuilder } = require("discord.js");
 const MC = require("minecraft-server-util");
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
     const IP = "185.229.237.130";
     const Port = "25565";
 
-    const Embed = new MessageEmbed()
+    const Embed = new EmbedBuilder()
       .setColor("#1ad4a8")
       .setTitle("Devvolt Network | Stats");
 

@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const os = require("node-os-utils");
 const mem = os.mem;
 const cpu = os.cpu;
@@ -23,7 +23,7 @@ module.exports = {
   async execute(client, message, args) {
     const c = await cpu.usage();
     const info = await mem.info();
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor("RANDOM")
       .setTitle("Statistics")
       .setDescription("Stats of the bot")

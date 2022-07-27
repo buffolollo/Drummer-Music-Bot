@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const skip = require("./skip");
 const {
@@ -27,12 +27,12 @@ module.exports = {
   async execute(client, message, args, q) {
     const error = (err) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
+        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
       });
 
     const send = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
+        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
       });
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
@@ -67,7 +67,7 @@ module.exports = {
           try {
             data.message.channel.send({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setDescription(
                     "**The queue is empty, there are no more songs to play!**"
                   )

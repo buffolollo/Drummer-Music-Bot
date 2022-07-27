@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "help",
@@ -15,12 +15,12 @@ module.exports = {
 
     const error = (err) =>
       message.channel.send(
-        new MessageEmbed().setColor("RED").setDescription(err)
+        new EmbedBuilder().setColor("RED").setDescription(err)
       );
 
     const send = (content) =>
       message.channel.send(
-        new MessageEmbed().setDescription(content).setColor("GREEN")
+        new EmbedBuilder().setDescription(content).setColor("GREEN")
       );
 
     const { commands } = message.client;
@@ -30,7 +30,7 @@ module.exports = {
       .join("\n");
     message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setAuthor({
             name: `${client.user.tag.toString()}`,
             iconURL: client.user.displayAvatarURL({ dynamic: true }),

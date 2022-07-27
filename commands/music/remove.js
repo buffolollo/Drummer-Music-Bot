@@ -1,4 +1,4 @@
-const { MessageEmbed, Message, Client } = require("discord.js");
+const { EmbedBuilder, Message, Client } = require("discord.js");
 
 module.exports = {
   name: "remove",
@@ -19,7 +19,7 @@ module.exports = {
     const error = (content) =>
       message.channel.send({
         embeds: [
-          new MessageEmbed().setDescription(`**${content}**`).setColor("RED"),
+          new EmbedBuilder().setDescription(`**${content}**`).setColor("RED"),
         ],
       });
 
@@ -38,7 +38,7 @@ module.exports = {
 
     message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription(`**Song removed: \`${queue.songs[num].name}\`!**`)
           .setColor("GREEN"),
       ],

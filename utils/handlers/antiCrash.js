@@ -1,4 +1,4 @@
-const { MessageEmbed, WebhookClient } = require("discord.js"); // Importing MessageEmbed from Discord.js
+const { EmbedBuilder, WebhookClient } = require("discord.js"); // Importing EmbedBuilder from Discord.js
 const { inspect } = require("util");
 const s = new WebhookClient({
   url: "https://discord.com/api/webhooks/989248446580011068/byTv4BM44GDcISa6BeDwSjNb89iBqf2mS49t59obo-GnhreBIZ6pt6S6hPSz0Lce5uWc",
@@ -11,7 +11,7 @@ module.exports = (client) => {
   client.on("error", (err) => {
     console.log(err);
     reload(client);
-    const ErrorEmbed = new MessageEmbed()
+    const ErrorEmbed = new EmbedBuilder()
       .setTitle("Error")
       .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
       .setColor("#2F3136")
@@ -32,7 +32,7 @@ module.exports = (client) => {
       p
     );
     reload(client);
-    const unhandledRejectionEmbed = new MessageEmbed()
+    const unhandledRejectionEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Unhandled Rejection/Catch 🟥**")
       .setURL("https://nodejs.org/api/process.html#event-unhandledrejection")
       .setColor("RED")
@@ -55,7 +55,7 @@ module.exports = (client) => {
   process.on("uncaughtException", (err, origin) => {
     console.log(err, origin);
     reload(client);
-    const uncaughtExceptionEmbed = new MessageEmbed()
+    const uncaughtExceptionEmbed = new EmbedBuilder()
       .setTitle("**🟥There was an Uncaught Exception/Catch 🟥**")
       .setColor("RED")
       .setURL("https://nodejs.org/api/process.html#event-uncaughtexception")
@@ -78,7 +78,7 @@ module.exports = (client) => {
   process.on("uncaughtExceptionMonitor", (err, origin) => {
     console.log(err, origin);
     reload(client);
-    const uncaughtExceptionMonitorEmbed = new MessageEmbed()
+    const uncaughtExceptionMonitorEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Uncaught Exception Monitor 🟥**")
       .setColor("RED")
       .setURL(
@@ -105,7 +105,7 @@ module.exports = (client) => {
   process.on("multipleResolves", (type, promise, reason) => {
     console.log(type, promise, reason);
     reload(client);
-    const multipleResolvesEmbed = new MessageEmbed()
+    const multipleResolvesEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Multiple Resolve 🟥**")
       .setURL("https://nodejs.org/api/process.html#event-multipleresolves")
       .setColor("RED")
@@ -132,7 +132,7 @@ module.exports = (client) => {
   process.on("warning", (warn) => {
     console.log(warn);
     reload(client);
-    const warningEmbed = new MessageEmbed()
+    const warningEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Uncaught Exception Monitor Warning 🟥**")
       .setColor("RED")
       .setURL("https://nodejs.org/api/process.html#event-warning")

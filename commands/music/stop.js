@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 const { getVoiceConnection } = require("@discordjs/voice");
 const { get } = require("quick.db");
 
@@ -26,7 +26,7 @@ module.exports = {
 
     message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription("**Music stopped :white_check_mark: **")
           .setColor("YELLOW"),
       ],

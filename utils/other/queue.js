@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "queue",
@@ -11,7 +11,7 @@ module.exports = {
 
     let queue = message.client.queue.get(message.guild.id);
 
-    if(queue.songs.length < 2) return message.channel.send(new MessageEmbed()
+    if(queue.songs.length < 2) return message.channel.send(new EmbedBuilder()
     .setDescription("Non c'è nessuna coda dopo questa canzone")
     .setColor("YELLOW"));
 
@@ -37,7 +37,7 @@ module.exports = {
       })
       .join("\n");
 
-      return message.channel.send(new MessageEmbed()
+      return message.channel.send(new EmbedBuilder()
       .setAuthor(
           "Coda",
           "https://img.icons8.com/color/2x/rhombus-loader.gif"

@@ -1,4 +1,4 @@
-const { MessageEmbed, WebhookClient } = require("discord.js");
+const { EmbedBuilder, WebhookClient } = require("discord.js");
 const fs = require("fs");
 const webhook = new WebhookClient({
   url: "https://discord.com/api/webhooks/989248446580011068/byTv4BM44GDcISa6BeDwSjNb89iBqf2mS49t59obo-GnhreBIZ6pt6S6hPSz0Lce5uWc",
@@ -20,7 +20,7 @@ function reload(client) {
         console.error(error);
         return webhook.send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setTitle("Error")
               .setDescription("Error to reload the commands")
               .addField("Reason", `\`\`\`${error}\`\`\``)

@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message, Util } = require("discord.js");
+const { EmbedBuilder, Client, Message, Util } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const youtubeScraper = require("yt-search");
 const yt = require("ytdl-core");
@@ -23,7 +23,7 @@ module.exports = {
 
     const error = (err) =>
       message.channel.send(
-        new MessageEmbed().setColor("RED").setDescription(err)
+        new EmbedBuilder().setColor("RED").setDescription(err)
       );
     const send = (content) => message.channel.send(content);
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
@@ -44,7 +44,7 @@ module.exports = {
       queue.connection.dispatcher.resume();
       queue.paused = false;
       send(
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription("**Canzone ripresa :white_check_mark:**")
           .setColor("YELLOW")
       );
@@ -126,7 +126,7 @@ module.exports = {
         queue.songs.push(song);
         if(playlist) return;
         return send(
-          new MessageEmbed()
+          new EmbedBuilder()
             .setAuthor(
               "La canzone è stata aggiunta alla coda",
               "https://img.icons8.com/color/2x/cd--v3.gif"
@@ -203,7 +203,7 @@ module.exports = {
 
     if (list) {
       send(
-        new MessageEmbed()
+        new EmbedBuilder()
           .setAuthor(
             "La canzone è stata aggiunta alla coda",
             "https://img.icons8.com/color/2x/cd--v3.gif"
@@ -255,7 +255,7 @@ module.exports = {
         if (!track) {
           try {
             data.channel.send(
-              new MessageEmbed()
+              new EmbedBuilder()
                 .setDescription(
                   "**La coda è vuota, non ci sono più canzoni da riprodurre!**"
                 )
@@ -303,7 +303,7 @@ module.exports = {
           });
         dispatcher.setVolumeLogarithmic(data.volume / 100);
         data.channel.send(
-          new MessageEmbed()
+          new EmbedBuilder()
             .setAuthor(
               "Ho iniziato a riprodurre",
               "https://img.icons8.com/color/2x/cd--v3.gif"

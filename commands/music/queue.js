@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "queue",
@@ -18,7 +18,7 @@ module.exports = {
     if (queue.songs.length < 2)
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription("There is no queue after this song")
             .setColor("YELLOW"),
         ],
@@ -93,7 +93,7 @@ function embedGeneraor(queue) {
     let info = current
       .map((song) => `${j++}. [${song.name}](${song.url})`)
       .join("\n");
-    const msg = new MessageEmbed()
+    const msg = new EmbedBuilder()
       .setAuthor({
         name: "Queue",
         url: "https://img.icons8.com/color/2x/rhombus-loader.gif",

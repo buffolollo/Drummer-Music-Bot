@@ -1,4 +1,4 @@
-const { Util, MessageEmbed } = require("discord.js");
+const { Util, EmbedBuilder } = require("discord.js");
 const forHumans = require("./forhumans");
 const Song = require("./Song");
 
@@ -11,7 +11,7 @@ async function addSongs(ytdata, message, send, playlist = false) {
   let n = parseInt(queue.songs.length);
   return send({
     embeds: [
-      new MessageEmbed()
+      new EmbedBuilder()
         .setAuthor({
           name: "The song was added to the queue",
           iconURL: "https://img.icons8.com/color/2x/cd--v3.gif",

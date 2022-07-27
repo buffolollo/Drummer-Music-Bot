@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 
 module.exports = {
   //^<>&
@@ -22,7 +22,7 @@ module.exports = {
     if (queue.paused == true)
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription(":x: This song is already paused.")
             .setColor("RED"),
         ],
@@ -31,7 +31,7 @@ module.exports = {
     queue.paused = true;
     return message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription("**Song paused :white_check_mark:**")
           .setColor("GREEN"),
       ],

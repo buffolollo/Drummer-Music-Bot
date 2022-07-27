@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const ytsr = require("yt-search");
 const yt = require("ytdl-core");
@@ -16,12 +16,12 @@ module.exports = {
 
     const error = (err) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
+        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
       });
 
     const send = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
+        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
       });
 
     const deletequeue = (id) => message.client.queue.delete(id);

@@ -1,4 +1,4 @@
-const { Message, Client, MessageEmbed } = require("discord.js");
+const { Message, Client, EmbedBuilder } = require("discord.js");
 const db = require("../database/schemas/prefixSchema");
 var prefix;
 
@@ -48,7 +48,7 @@ module.exports = {
       if (!message.member.voice.channel) {
         return message.channel.send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setDescription("**You must be in a voice channel** :x:")
               .setColor("RED"),
           ],
@@ -58,7 +58,7 @@ module.exports = {
         if (message.member.voice.channel != message.guild.me.voice.channel) {
           return message.channel.send({
             embeds: [
-              new MessageEmbed()
+              new EmbedBuilder()
                 .setDescription("**You are not in the same voice channel** :x:")
                 .setColor("RED"),
             ],
@@ -70,7 +70,7 @@ module.exports = {
     if (cmd.queue && !message.client.queue.get(message.guild.id)) {
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription("**There is no queue** :x:")
             .setColor("YELLOW"),
         ],
@@ -80,7 +80,7 @@ module.exports = {
     if (cmd.staff && message.member.id != "690637465341526077") {
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription("**You don't have permissions!** :x:")
             .setColor("RED"),
         ],

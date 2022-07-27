@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const {
   joinVoiceChannel,
   createAudioPlayer,
@@ -23,12 +23,12 @@ module.exports = {
 
     const error = (err) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
+        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
       });
 
     const send = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
+        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
       });
 
     const query = args[0];

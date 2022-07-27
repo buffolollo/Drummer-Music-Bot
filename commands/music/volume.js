@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 
 module.exports = {
   name: "volume",
@@ -19,14 +19,14 @@ module.exports = {
     const error = (err) =>
       message.channel.send({
         embeds: [
-          new MessageEmbed().setColor("RED").setDescription(`**${err}**`),
+          new EmbedBuilder().setColor("RED").setDescription(`**${err}**`),
         ],
       });
 
       const send = (err) =>
       message.channel.send({
         embeds: [
-          new MessageEmbed().setColor("DARK_GREEN").setDescription(`**${err}**`),
+          new EmbedBuilder().setColor("DARK_GREEN").setDescription(`**${err}**`),
         ],
       });
 
@@ -47,7 +47,7 @@ module.exports = {
 
     return message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription(`\`Volume set to:\` **${num}**`)
           .setColor("GREEN"),
       ],

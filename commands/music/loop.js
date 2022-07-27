@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 
 module.exports = {
   name: "loop",
@@ -18,12 +18,12 @@ module.exports = {
     
     const send = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setColor("GREEN").setDescription(content)],
+        embeds: [new EmbedBuilder().setColor("GREEN").setDescription(content)],
       });
 
     const disa = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(content)],
+        embeds: [new EmbedBuilder().setColor("RED").setDescription(content)],
       });
 
     let queue = message.client.queue.get(message.guild.id);
@@ -54,7 +54,7 @@ module.exports = {
       default:
         message.channel.send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor("RED")
               .setDescription("Pefavore specifica il tipo di loop che vuoi")
               .addField(`one`, `Per attivare il loop della singola canzone`)

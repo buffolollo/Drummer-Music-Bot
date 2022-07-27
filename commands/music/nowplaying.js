@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 async function getTime(query) {
   var date = new Date(0);
   date.setSeconds(query); // specify value for SECONDS here
@@ -34,7 +34,7 @@ module.exports = {
     let streamTime = await getTime(parseInt(time));
     message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setAuthor({
             name: "Now playing",
             iconURL: "https://img.icons8.com/color/2x/rhombus-loader.gif",

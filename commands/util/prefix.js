@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const db = require("../../database/schemas/prefixSchema");
 // const db = require("quick.db")
 
@@ -15,7 +15,7 @@ module.exports = {
   async execute(client, message, args, queue, prefix) {
     const send = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
+        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
       });
     const newPrefix = args[0];
 

@@ -8,7 +8,7 @@ const {
   VoiceConnectionStatus,
 } = require("@discordjs/voice");
 const fs = require("fs");
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const ytsr = require("youtube-sr").default
 // const { getData, getPreview, getTracks, getDetails } = require("spotify-url-info")(fetch);
 const fetch = require("isomorphic-unfetch");

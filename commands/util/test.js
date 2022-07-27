@@ -1,4 +1,4 @@
-let { MessageEmbed, Client, Message, Util } = require("discord.js");
+let { EmbedBuilder, Client, Message, Util } = require("discord.js");
 let ytdl = require("discord-ytdl-core");
 let yt = require("ytdl-core");
 let forHumans = require("../../utils/src/forhumans");
@@ -80,7 +80,7 @@ module.exports = {
         if (!track) {
           try {
             data.channel.send(
-              new MessageEmbed()
+              new EmbedBuilder()
                 .setDescription(
                   "**La coda è vuota, non ci sono più canzoni da riprodurre!**"
                 )

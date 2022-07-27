@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message, Util } = require("discord.js");
+const { EmbedBuilder, Client, Message, Util } = require("discord.js");
 const {
   AudioPlayerStatus,
   joinVoiceChannel,
@@ -38,13 +38,6 @@ module.exports = {
    */
   async execute(client, message, args) {
     let channel = message.member.voice.channel;
-
-    let error = (err) =>
-      message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
-      });
-
-    let send = (content) => message.channel.send(content);
 
     let setqueue = (id, obj) => message.client.queue.set(id, obj);
     let deletequeue = (id) => message.client.queue.delete(id);
@@ -241,11 +234,11 @@ module.exports = {
             deletequeue(message.guild.id);
             data.message.channel.send({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setDescription(
                     "**The queue is empty, there are no more songs to play!**"
                   )
-                  .setColor("RED"),
+                  .setColor("#FF0000"),
               ],
             });
             var interval = config.leaveOnEndQueue * 1000;

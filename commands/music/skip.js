@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 
 module.exports = {
   //^<>&
@@ -18,7 +18,7 @@ module.exports = {
     let queue = q.get(message.guild.id);
     message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription("**Song skipped :white_check_mark: **")
           .setColor("YELLOW"),
       ],

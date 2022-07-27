@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const ytsr = require("yt-search");
 const yt = require("ytdl-core");
@@ -38,7 +38,7 @@ module.exports = {
 
     for (let i = 0; i < res.length; i += 2048) {
       let lyrics = res.substring(i, Math.min(res.length, i + 2048));
-      let page = new MessageEmbed()
+      let page = new EmbedBuilder()
         .setTitle(`${queue.songs[0].title}`)
         .setDescription(lyrics)
         .setColor("DARK_GREEN")

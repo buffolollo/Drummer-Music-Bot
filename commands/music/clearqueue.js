@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 
 module.exports = {
   name: "clearqueue",
@@ -18,7 +18,7 @@ module.exports = {
     queue.songs = [];
     return message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription(
             "**Queue cleared :white_check_mark: **"
           )

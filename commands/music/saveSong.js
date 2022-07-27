@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
 const ytsr = require("yt-search");
 const yt = require("ytdl-core");
@@ -21,12 +21,12 @@ module.exports = {
     const channel = message.member.voice.channel;
     const error = (err) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setColor("RED").setDescription(err)],
+        embeds: [new EmbedBuilder().setColor("RED").setDescription(err)],
       });
 
     const send = (content) =>
       message.channel.send({
-        embeds: [new MessageEmbed().setDescription(content).setColor("GREEN")],
+        embeds: [new EmbedBuilder().setDescription(content).setColor("GREEN")],
       });
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
@@ -35,7 +35,7 @@ module.exports = {
     message.author
       .send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             // .setAuthor({
             //   name: `${queue.songs[0].title}`,
             //   url: queue.songs[0].url,

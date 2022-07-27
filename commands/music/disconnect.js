@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require("discord.js");
+const { EmbedBuilder, Client, Message } = require("discord.js");
 const { getVoiceConnection } = require("@discordjs/voice");
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
     if (!message.guild.me.voice.channel) {
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription("I am already logged out!")
             .setColor("RED"),
         ],
@@ -43,7 +43,7 @@ module.exports = {
     // } catch (error) {}
     message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription("📭 **I have disconnected!**")
           .setColor("GREEN"),
       ],

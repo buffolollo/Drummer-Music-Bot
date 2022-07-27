@@ -1,5 +1,5 @@
 const ytdl = require("discord-ytdl-core");
-const { MessageEmbed } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 
 async function play(track, message) {
   const deletequeue = (id) => message.client.queue.delete(id);
@@ -8,7 +8,7 @@ async function play(track, message) {
     if (!track) {
       try {
         data.channel.send(
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription(
               "La coda è vuota, non ci sono più canzoni da riprodurre :x:"
             )
@@ -48,7 +48,7 @@ async function play(track, message) {
       });
     player.setVolumeLogarithmic(data.volume / 100);
     data.channel.send(
-      new MessageEmbed()
+      new EmbedBuilder()
         .setAuthor(
           "Ho iniziato a riprodurre",
           "https://img.icons8.com/color/2x/cd--v3.gif"

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "resume",
@@ -14,7 +14,7 @@ module.exports = {
     if (queue.paused == false)
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setDescription(":x: This song is already playing.")
             .setColor("GREEN"),
         ],
@@ -23,7 +23,7 @@ module.exports = {
     queue.paused = false;
     return message.channel.send({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setDescription("**Song resumed :white_check_mark:**")
           .setColor("GREEN"),
       ],

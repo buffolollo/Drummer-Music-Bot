@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, EmbedBuilder } = require("discord.js");
 const {
   AudioPlayerStatus,
   joinVoiceChannel,
@@ -30,12 +30,12 @@ module.exports = {
 
     const error = (err) =>
       message.channel.send(
-        new MessageEmbed().setColor("RED").setDescription(err)
+        new EmbedBuilder().setColor("RED").setDescription(err)
       );
 
     const send = (content) =>
       message.channel.send(
-        new MessageEmbed().setDescription(content).setColor("GREEN")
+        new EmbedBuilder().setDescription(content).setColor("GREEN")
       );
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
@@ -51,7 +51,7 @@ module.exports = {
           try {
             queue.message.channel.send({
               embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                   .setDescription(
                     "**The queue is empty, there are no more songs to play!**"
                   )
