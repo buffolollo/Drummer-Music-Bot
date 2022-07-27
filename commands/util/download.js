@@ -19,20 +19,13 @@ module.exports = {
   async execute(client, message, args) {
     const queue = message.client.queue.get(message.guild.id);
 
-    const error = (err) =>
-      message.channel.send({
-        embeds: [
-          new EmbedBuilder().setColor("RED").setDescription(`**${err}**`),
-        ],
-      });
-
     console.log(`${message.author.tag} used the command download!`);
 
     const query = args[0];
-    if (!query) return error("You give me nothing!");
+    if (!query) return error(message, "You give me nothing!");
 
     if (!searcher.validate(query, "VIDEO"))
-      return error("This is not a youtube link!");
+      return error(message, "This is not a youtube link!");
 
     let data = ytdl.getBasicInfo(query);
     let title = (await data).videoDetails.title;

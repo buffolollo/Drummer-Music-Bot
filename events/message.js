@@ -1,4 +1,4 @@
-const { Message, Client, EmbedBuilder } = require("discord.js");
+const { Message, Client, EmbedBuilder, ChannelType } = require("discord.js");
 const db = require("../database/schemas/prefixSchema");
 var prefix;
 
@@ -11,7 +11,7 @@ module.exports = {
    * @returns
    */
   async execute(message, client) {
-    if (message.channel.type == "DM") return;
+    if (message.channel.type == ChannelType.DM) return;
     if (message.author.bot) return;
 
     const data = await db.findOne({
