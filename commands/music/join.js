@@ -14,7 +14,7 @@ module.exports = {
    * @param {Message} message
    * @param {String[]} args
    */
-  execute(client, message, args) {
+  async execute(client, message, args) {
     const channel = message.member.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);
@@ -22,7 +22,7 @@ module.exports = {
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
 
-    const connection = joinVoiceChannel({
+    const connection = await joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
       adapterCreator: channel.guild.voiceAdapterCreator,

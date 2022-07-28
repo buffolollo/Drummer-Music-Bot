@@ -106,8 +106,7 @@ module.exports = (client) => {
             1000
           ),
         },
-      ])`\`\`${inspect(origin, { depth: 0 })}\`\`\``
-      .substring(0, 1000)
+      ])
 
       .setTimestamp();
 

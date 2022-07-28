@@ -29,8 +29,6 @@ module.exports = {
 
     if (!message.content.startsWith(prefix)) return;
 
-    console.log(prefix, "a");
-
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
@@ -52,17 +50,17 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setDescription("**You must be in a voice channel** :x:")
-              .setColor("RED"),
+              .setColor("Red"),
           ],
         });
       }
-      if (message.guild.me.voice.channel) {
-        if (message.member.voice.channel != message.guild.me.voice.channel) {
+      if (message.guild.members.me.voice.channel) {
+        if (message.member.voice.channelId != message.guild.members.me.voice.channelId) {
           return message.channel.send({
             embeds: [
               new EmbedBuilder()
                 .setDescription("**You are not in the same voice channel** :x:")
-                .setColor("RED"),
+                .setColor("Red"),
             ],
           });
         }
@@ -74,7 +72,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setDescription("**There is no queue** :x:")
-            .setColor("YELLOW"),
+            .setColor("Red"),
         ],
       });
     }
@@ -84,7 +82,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setDescription("**You don't have permissions!** :x:")
-            .setColor("RED"),
+            .setColor("Red"),
         ],
       });
     }

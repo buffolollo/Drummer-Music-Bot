@@ -9,7 +9,7 @@ const {
 } = require("@discordjs/voice");
 const fs = require("fs");
 const { Client, Message, EmbedBuilder } = require("discord.js");
-const ytsr = require("youtube-sr").default
+const ytsr = require("youtube-sr").default;
 // const { getData, getPreview, getTracks, getDetails } = require("spotify-url-info")(fetch);
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
@@ -33,12 +33,11 @@ module.exports = {
   async execute(client, message, args) {
     let channel = message.member.voice.channel;
     let deletequeue = (id) => message.client.queue.delete(id);
-    console.log("q")
 
-    const link = "https://www.youtube.com/watch?v=X-5ACIGzSw0"
+    // const link = "https://www.youtube.com/watch?v=X-5ACIGzSw0"
 
-    const data = await ytsr.search(link, { type: "video", limit: 1 })
+    // const data = await ytsr.search(link, { type: "video", limit: 1 })
 
-    console.log(data[0]);
+    // console.log(data[0]);
   },
 };

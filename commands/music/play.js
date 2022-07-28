@@ -65,7 +65,7 @@ module.exports = {
     let query = args.join(" ");
     if (!query) return error(message, "**You didn't give me a song to play!**");
 
-    if (!message.guild.me.voice.channel) {
+    if (!message.guild.members.me.voice.channel) {
       joinVoiceChannel({
         channelId: channel.id,
         guildId: channel.guild.id,
@@ -77,8 +77,8 @@ module.exports = {
     send(message, `🔎 **Searching** \`${args.join(" ")}\``);
 
     setInterval(() => {
-      if (message.guild.me.voice.channel)
-        message.member.guild.me.voice.setDeaf(true).catch((err) => {});
+      if (message.guild.members.me.voice.channel)
+        message.member.guild.members.me.voice.setDeaf(true).catch((err) => {});
     }, 2000);
 
     let vc = message.member.voice.channel;
@@ -188,7 +188,7 @@ module.exports = {
         let structure = await Queue(message, channel, setqueue, song);
         try {
           if (
-            !message.guild.me.voice.channel ||
+            !message.guild.members.me.voice.channel ||
             !message.client.queue.get(message.guild.id)
           ) {
             return deletequeue(message.guild.id);
@@ -201,7 +201,7 @@ module.exports = {
           });
           structure.connection = connection;
           if (
-            !message.guild.me.voice.channel ||
+            !message.guild.members.me.voice.channel ||
             !message.client.queue.get(message.guild.id)
           ) {
             getVoiceConnection(message.guild.id).destroy();
@@ -214,7 +214,7 @@ module.exports = {
         }
       } else {
         if (
-          !message.guild.me.voice.channel ||
+          !message.guild.members.me.voice.channel ||
           !message.client.queue.get(message.guild.id)
         ) {
           message.client.queue.get(message.guild.id).connection.destroy();
@@ -239,7 +239,7 @@ module.exports = {
                   .setDescription(
                     "**The queue is empty, there are no more songs to play!**"
                   )
-                  .setColor(0xFF0000),
+                  .setColor(0xff0000),
               ],
             });
             var interval = config.leaveOnEndQueue * 1000;
@@ -260,7 +260,7 @@ module.exports = {
         }
 
         if (
-          !message.guild.me.voice.channel ||
+          !message.guild.members.me.voice.channel ||
           !message.client.queue.get(message.guild.id)
         ) {
           data.connection.destroy();
@@ -284,7 +284,7 @@ module.exports = {
         data.connection.subscribe(player);
 
         if (
-          !message.guild.me.voice.channel ||
+          !message.guild.members.me.voice.channel ||
           !message.client.queue.get(message.guild.id)
         ) {
           data.connection.destroy();

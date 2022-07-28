@@ -14,11 +14,11 @@ module.exports = {
    * @returns
    */
   execute(client, message, args) {
-    const clientVc = message.guild.me.voice.channel;
+    const clientVc = message.guild.members.me.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);
 
-    if (!message.guild.me.voice.channel) {
+    if (!message.guild.members.me.voice.channel) {
       return send(message, "I am already logged out!");
     }
 
