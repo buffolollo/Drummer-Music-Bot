@@ -224,8 +224,8 @@ module.exports = {
           message.client.queue.get(message.guild.id).connection.destroy();
           return deletequeue(message.guild.id);
         }
-        if (playlist) addSongToQueue(ytdata, message, send, true);
-        else addSongToQueue(ytdata, message, send);
+        if (playlist) addSongToQueue(ytdata, message, true);
+        else addSongToQueue(ytdata, message);
       }
     }
 

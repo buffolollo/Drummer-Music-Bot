@@ -2,14 +2,14 @@ const { Util, EmbedBuilder } = require("discord.js");
 const forHumans = require("./forhumans");
 const Song = require("./Song");
 
-async function addSongs(ytdata, message, send, playlist = false) {
+async function addSongs(ytdata, message, playlist = false) {
   let queue = message.client.queue.get(message.guild.id);
   const song = await Song(ytdata, message);
 
   queue.songs.push(song);
   if (playlist) return;
   let n = parseInt(queue.songs.length);
-  return send({
+  return message.channel.send({
     embeds: [
       new EmbedBuilder()
         .setAuthor({
