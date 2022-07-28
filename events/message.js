@@ -7,12 +7,10 @@ module.exports = {
   /**
    *
    * @param {Message} message
-   * @param {Client} client
    * @returns
    */
   async execute(message, client) {
     if (message.channel.type == ChannelType.DM) return;
-    if (message.author.bot) return;
 
     const data = await db.findOne({
       _id: message.author.id,
@@ -27,7 +25,7 @@ module.exports = {
       });
     }
 
-    if (!message.content.startsWith(prefix)) return;
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
@@ -55,7 +53,10 @@ module.exports = {
         });
       }
       if (message.guild.members.me.voice.channel) {
-        if (message.member.voice.channelId != message.guild.members.me.voice.channelId) {
+        if (
+          message.member.voice.channelId !=
+          message.guild.members.me.voice.channelId
+        ) {
           return message.channel.send({
             embeds: [
               new EmbedBuilder()

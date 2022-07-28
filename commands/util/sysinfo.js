@@ -24,7 +24,7 @@ module.exports = {
     const c = await cpu.usage();
     const info = await mem.info();
     const embed = new EmbedBuilder()
-      .setColor("RANDOM")
+      .setColor("Random")
       .setTitle("Statistics")
       .setDescription("Stats of the bot")
       .addFields(

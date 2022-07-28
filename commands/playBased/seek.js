@@ -1,22 +1,22 @@
-const { Client, Message, EmbedBuilder } = require("discord.js");
-const ytdl = require("discord-ytdl-core");
-const skip = require("./skip");
+const { EmbedBuilder, Client, Message, Util } = require("discord.js");
 const {
-  AudioPlayerStatus,
-  joinVoiceChannel,
   createAudioPlayer,
-  NoSubscriberBehavior,
-  createAudioResource,
   VoiceConnectionStatus,
-  getVoiceConnection,
+  joinVoiceChannel,
+  AudioPlayerStatus,
+  createAudioResource,
+  AudioPlayer,
 } = require("@discordjs/voice");
-
+const ytdl = require("discord-ytdl-core");
+const youtubeScraper = require("yt-search");
+const yt = require("ytdl-core");
+const forHumans = require("../../utils/src/forhumans");
 module.exports = {
-  name: "goto",
-  aliases: ["qp", "goto", "go", "to", "queueplay"],
-  d: "Goto a song in the queue",
+  name: "seek",
+  aliases: [],
   voice: true,
   queue: true,
+  d: "Seek the song!",
   /**
    *
    * @param {Client} client
@@ -24,40 +24,52 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  execute(client, message, args, q) {
+  execute(client, message, args) {
+    const channel = message.member.voice.channel;
 
+    const queue = message.client.queue.get(message.guild.id);
+
+    const error = (err) => message.channel.send(err);
+    const send = (content) => message.channel.send(content);
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
+    var time;
 
-    const queue = q.get(message.guild.id);
-    let num;
+    time = args[0];
+    if (isNaN(time)) return error(message, "Please enter a valid number!");
 
-    if (queue.songs.length < 2)
-      return error(message, "There's only the song I'm playing!");
+    if (queue.paused == true)
+      return error(
+        message,
+        "To keep the song going, you have to pick it up again"
+      );
 
-    num = parseInt(args[0]);
-    if (isNaN(num)) return error(message, "Please enter a valid number!");
-
-    if (num == 0) return error(message, "**You cannot enter the number 0!**");
-
-    if (num == 1) {
-      skip.execute(client, message, args);
+    let queue2 = message.client.queue.get(message.guild.id);
+    let or = time * 1000;
+    if (queue2.songs[0].durationMS <= or) {
+      return queue.player.stop();
     }
 
-    if (!queue.songs[num]) {
-      num = parseInt(queue.songs.length - 1);
-      return _playYTDLStream(queue.songs[num]);
-    }
+    time = parseInt(time);
 
-    return _playYTDLStream(queue.songs[num]);
+    try {
+      let song = queue.songs[0];
+      _playYTDLStream(song);
+    } catch (error) {
+      deletequeue(message.guild.id);
+      console.error(error);
+    }
 
     async function _playYTDLStream(track) {
       try {
         let data = message.client.queue.get(message.guild.id);
         if (!track) {
           try {
-            send(data.message, "**The queue is empty, there are no more songs to play!**");
             deletequeue(message.guild.id);
+            error(
+              queue.message,
+              "**The queue is empty, there are no more songs to play!**"
+            );
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {
               let queue = message.client.queue.get(message.guild.id);
@@ -73,6 +85,14 @@ module.exports = {
             return deletequeue(message.guild.id);
           }
           return;
+        }
+
+        if (
+          !message.guild.members.me.voice.channel ||
+          !message.client.queue.get(message.guild.id)
+        ) {
+          data.connection.destroy();
+          return deletequeue(message.guild.id);
         }
 
         let newStream = await ytdl(track.url, {
@@ -91,6 +111,14 @@ module.exports = {
         player.play(resource);
         data.connection.subscribe(player);
 
+        if (
+          !message.guild.members.me.voice.channel ||
+          !message.client.queue.get(message.guild.id)
+        ) {
+          data.connection.destroy();
+          return deletequeue(message.guild.id);
+        }
+
         player.on(AudioPlayerStatus.Idle, () => {
           data.addTime = 0;
           if (data.loopone) {
@@ -104,14 +132,13 @@ module.exports = {
           _playYTDLStream(data.songs[0]);
         });
 
-        queue.songs[0] = queue.songs[num];
-        let q = queue.songs;
-        let index = num;
-        q.splice(index, 1);
+        if (time < 0) {
+          data.message.channel.send({
+            content: `**Playing** 🎶 \`${track.name}\` - Now!`,
+          });
+        }
 
-        return queue.message.channel.send({
-          content: `**Playing** 🎶 \`${track.name}\` - Now!`,
-        });
+        send(data.message, `**I brought the song to ${time} seconds!**`);
       } catch (e) {
         console.error(e);
       }

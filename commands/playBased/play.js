@@ -18,8 +18,8 @@ const spotifyPlaylistRegex =
   /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/;
 const spotifySongRegex =
   /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:track\/|\?uri=spotify:track:)((\w|-){22})/;
-const resume = require("./resume");
-const pause = require("./pause");
+const resume = require("../music/resume");
+const pause = require("../music/pause");
 const addSongToQueue = require("../../utils/src/addSongToQueue");
 const Queue = require("../../utils/src/Queue");
 const Song = require("../../utils/src/Song");
@@ -44,10 +44,10 @@ module.exports = {
     var queue = message.client.queue.get(message.guild.id);
 
     if (!channel.permissionsFor(message.client.user).has("CONNECT"))
-      return error("I am not allowed to join the voice channel");
+      return error(message, "I am not allowed to join the voice channel");
 
     if (!channel.permissionsFor(message.client.user).has("SPEAK"))
-      return error("I am not allowed to speak on the voice channel");
+      return error(message, "I am not allowed to speak on the voice channel");
 
     if (
       queue &&
@@ -95,7 +95,7 @@ module.exports = {
         content: `🔍🎶 **I'm adding the playlist** \`${playlist.title}. Songs: ${playlist.items.length}\` One moment...`,
       });
       for (let i = 0; i < playlist.items.length; i++) {
-        if (!message.guild.me.voice.channel) {
+        if (!message.guild.members.me.voice.channel) {
           interrupt = 1;
           break;
         }
@@ -148,7 +148,7 @@ module.exports = {
       var noResult = 0;
       var interrupt = 0;
       for (let i = 0; i < playlist.length; i++) {
-        if (!message.guild.me.voice.channel) {
+        if (!message.guild.members.me.voice.channel) {
           interrupt = 1;
           break;
         }

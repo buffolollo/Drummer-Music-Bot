@@ -5,7 +5,7 @@ module.exports = {
   aliases: [],
   d: "Bot ping",
   execute(client, message, args) {
-    message.channel.send({
+    return message.channel.send({
       embeds: [
         new EmbedBuilder()
           .setDescription(
@@ -13,7 +13,7 @@ module.exports = {
               Date.now() - message.createdTimestamp
             }ms. API Latency is ${Math.round(client.ws.ping)}ms`
           )
-          .setColor("GREEN"),
+          .setColor("DarkGreen"),
       ],
     });
   },
