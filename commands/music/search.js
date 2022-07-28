@@ -1,6 +1,4 @@
 const { Client, Message, EmbedBuilder, Collection } = require("discord.js");
-const ytdl = require("discord-ytdl-core");
-const ytsr = require("yt-search");
 const searcher = require("youtube-sr").default;
 const yt = require("ytdl-core");
 const send = require("../../utils/src/send");
