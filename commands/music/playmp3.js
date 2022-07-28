@@ -18,7 +18,7 @@ module.exports = {
    * @param {Message} message
    * @param {String[]} args
    */
-  async execute(client, message, args) {
+  execute(client, message, args) {
     const channel = message.member.voice.channel;
 
     const query = args[0];

@@ -13,7 +13,7 @@ module.exports = {
    * @param {Message} message
    * @param {String[]} args
    */
-  async execute(client, message, args) {
+  execute(client, message, args) {
     console.clear();
     console.log(`Ayo, back in track baby`);
     console.log(`Logged in as ${client.user.tag}`);

@@ -10,7 +10,7 @@ module.exports = {
    * @param {Message} message
    * @param {Client} client
    */
-  async execute(client, message, args) {
+  execute(client, message, args) {
     const IP = "185.229.237.130";
     const Port = "25565";
 

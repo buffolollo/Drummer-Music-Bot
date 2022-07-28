@@ -7,7 +7,7 @@ module.exports = {
   voice: true,
   queue: true,
   d: "Resume the song!",
-  async execute(client, message, args) {
+  execute(client, message, args) {
     const channel = message.member.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);

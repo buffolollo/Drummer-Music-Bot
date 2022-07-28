@@ -13,7 +13,7 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  async execute(client, message, args) {
+  execute(client, message, args) {
     let queue = message.client.queue.get(message.guild.id);
     queue.songs = [];
     return send(message, "**Queue cleared :white_check_mark: **");

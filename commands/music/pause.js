@@ -14,7 +14,7 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  async execute(client, message, args) {
+  execute(client, message, args) {
     const channel = message.member.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);

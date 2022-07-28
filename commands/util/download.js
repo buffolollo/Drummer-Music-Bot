@@ -27,9 +27,9 @@ module.exports = {
     if (!searcher.validate(query, "VIDEO"))
       return error(message, "This is not a youtube link!");
 
-    let data = ytdl.getBasicInfo(query);
-    let title = (await data).videoDetails.title;
-    let url = (await data).videoDetails.video_url;
+    let data = await ytdl.getBasicInfo(query);
+    let title = data.videoDetails.title;
+    let url = data.videoDetails.video_url;
 
     if (fs.existsSync(`./download/${title}.m4a`)) {
       message.channel.send({

@@ -10,7 +10,7 @@ module.exports = {
         new EmbedBuilder()
           .setDescription(
             `🏓Message time response ${
-              (Date.now() - message.createdTimestamp)
+              Date.now() - message.createdTimestamp
             }ms. API Latency is ${Math.round(client.ws.ping)}ms`
           )
           .setColor("GREEN"),

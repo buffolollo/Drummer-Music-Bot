@@ -15,7 +15,7 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  async execute(client, message, args, q) {
+  execute(client, message, args, q) {
     let queue = q.get(message.guild.id);
     send(message, "**Song skipped :white_check_mark: **");
     return queue.player.stop();

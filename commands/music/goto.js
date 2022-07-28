@@ -24,7 +24,7 @@ module.exports = {
    * @param {String[]} args
    * @returns
    */
-  async execute(client, message, args, q) {
+  execute(client, message, args, q) {
 
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);

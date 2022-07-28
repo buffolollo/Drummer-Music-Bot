@@ -10,18 +10,8 @@ module.exports = {
    * @param {Message} message
    * @param {String[]} args
    */
-  async execute(client, message, args) {
+  execute(client, message, args) {
     const channel = message.member.voice.channel;
-
-    const error = (err) =>
-      message.channel.send(
-        new EmbedBuilder().setColor("RED").setDescription(err)
-      );
-
-    const send = (content) =>
-      message.channel.send(
-        new EmbedBuilder().setDescription(content).setColor("GREEN")
-      );
 
     const { commands } = message.client;
     let help = commands

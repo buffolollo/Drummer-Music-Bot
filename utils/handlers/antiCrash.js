@@ -119,8 +119,7 @@ module.exports = (client) => {
   //multipleResolves
 
   process.on("multipleResolves", (type, promise, reason) => {
-    return;
-    // console.log(type, promise, reason);
+    console.log(type, promise, reason);
     reload(client);
     const multipleResolvesEmbed = new EmbedBuilder()
       .setTitle("**🟥 There was an Multiple Resolve 🟥**")
