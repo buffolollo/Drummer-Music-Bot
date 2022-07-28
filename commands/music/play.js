@@ -71,10 +71,14 @@ module.exports = {
         guildId: channel.guild.id,
         adapterCreator: channel.guild.voiceAdapterCreator,
       });
-      send(message, `**👍 Joined** \`${channel.name}\``);
+      message.channel.send({
+        content: `**👍 Joined** \`${channel.name}\``,
+      });
     }
 
-    send(message, `🔎 **Searching** \`${args.join(" ")}\``);
+    message.channel.send({
+      content: `🔎 **Searching** \`${args.join(" ")}\``,
+    });
 
     setInterval(() => {
       if (message.guild.members.me.voice.channel)
@@ -233,15 +237,10 @@ module.exports = {
         if (!track) {
           try {
             deletequeue(message.guild.id);
-            data.message.channel.send({
-              embeds: [
-                new EmbedBuilder()
-                  .setDescription(
-                    "**The queue is empty, there are no more songs to play!**"
-                  )
-                  .setColor(0xff0000),
-              ],
-            });
+            error(
+              queue.message,
+              "**The queue is empty, there are no more songs to play!**"
+            );
             var interval = config.leaveOnEndQueue * 1000;
             setTimeout(() => {
               let queue = message.client.queue.get(message.guild.id);

@@ -41,16 +41,30 @@ module.exports = {
           })
           .setThumbnail(thumbnail)
           .setColor(0x006400)
-          .addField("Name", `[${song.name}](${song.url})`)
-          .addField("Artist", `${song.author}`)
-          .addField("Views", `${song.views}`)
-          .addField("Requested by", `${song.requested}`)
-          .addField(
-            "Time",
-            `(${streamTime} | ${time})  / (${timeLine} | ${
-              song.durationMS / 1000
-            } seconds)`
-          ),
+          .addFields([
+            {
+              name: "Name",
+              value: `[${song.name}](${song.url})`,
+            },
+            {
+              name: "Artist",
+              value: `${song.author}`,
+            },
+            {
+              name: "Views",
+              value: `${song.views}`,
+            },
+            {
+              name: "Requested by",
+              value: `${song.requested}`,
+            },
+            {
+              name: "Time",
+              value: `(${streamTime} | ${time})  / (${timeLine} | ${
+                song.durationMS / 1000
+              } seconds)`,
+            },
+          ]),
         //.setDescription(`[${name}](${song.url})`)
       ],
     });
