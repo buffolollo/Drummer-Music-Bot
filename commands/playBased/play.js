@@ -76,10 +76,6 @@ module.exports = {
       });
     }
 
-    message.channel.send({
-      content: `🔎 **Searching** \`${args.join(" ")}\``,
-    });
-
     setInterval(() => {
       if (message.guild.members.me.voice.channel)
         message.member.guild.members.me.voice.setDeaf(true).catch((err) => {});
@@ -118,6 +114,9 @@ module.exports = {
 
     if (searcher.validate(query, "VIDEO")) {
       let songInfo = await yt.getInfo(query);
+      message.channel.send({
+        content: `🔎 **Searching** \`${songInfo.videoDetails.title}\``,
+      });
       if (!songInfo)
         return error(
           message,
@@ -128,6 +127,9 @@ module.exports = {
 
     if (query.match(spotifySongRegex)) {
       const data = await spotify.getPreview(query);
+      message.channel.send({
+        content: `🔎 **Searching** \`${data.title} ${data.artist}\``,
+      });
       const result = await searcher.search(`${data.title} ${data.artist}`, {
         type: "video",
         limit: 1,
@@ -176,6 +178,9 @@ module.exports = {
     }
 
     {
+      message.channel.send({
+        content: `🔎 **Searching** \`${args.join(" ")}\``,
+      });
       const result = await searcher.search(query, { type: "video", limit: 1 });
       if (result.length < 1 || !result)
         return error(message, "**I have not found any video!**");
