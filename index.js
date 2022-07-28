@@ -1,16 +1,35 @@
-const Discord = require("discord.js");
+const {
+  Client,
+  IntentsBitField,
+  Collection,
+  Partials,
+  GatewayIntentBits,
+} = require("discord.js");
 const config = require("./config/config.json");
-const colors = require("colors/safe")
+const colors = require("colors/safe");
 const EventEmitter = require("events");
-const send = require("./utils/src/send")
-const error = require("./utils/src/error")
-const intents = new Discord.IntentsBitField(32767);
+const send = require("./utils/src/send");
+const error = require("./utils/src/error");
+const intents = new IntentsBitField(32767);
 
 process.setMaxListeners(0);
 EventEmitter.defaultMaxListeners = 0;
 
-const client = new Discord.Client({
-  intents
+const client = new Client({
+  intents: [
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildMessages
+  ],
+  partials: [
+    Partials.Channel,
+    Partials.GuildMember,
+    Partials.Message,
+    Partials.User,
+    Partials.Reaction,
+  ],
 });
 
 global.client = client;
@@ -20,7 +39,7 @@ global.send = send;
 global.error = error;
 
 client.queue = new Map();
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 
 require("./utils/handlers/CommandsHandler")(client);
 require("./utils/handlers/EventsHandler")(client);

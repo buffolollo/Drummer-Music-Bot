@@ -118,41 +118,41 @@ module.exports = (client) => {
 
   //multipleResolves
 
-  process.on("multipleResolves", (type, promise, reason) => {
-    console.log(type, promise, reason);
-    reload(client);
-    const multipleResolvesEmbed = new EmbedBuilder()
-      .setTitle("**🟥 There was an Multiple Resolve 🟥**")
-      .setURL("https://nodejs.org/api/process.html#event-multipleresolves")
-      .setColor(0xff0000)
-      .addFields([
-        {
-          name: "Type",
-          value: `\`\`\`${inspect(type, { depth: 0 })}\`\`\``.substring(
-            0,
-            1000
-          ),
-        },
-        {
-          name: "Promise",
-          value: `\`\`\`${inspect(promise, { depth: 0 })}\`\`\``.substring(
-            0,
-            1000
-          ),
-        },
-        {
-          name: "Reason",
-          value: `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(
-            0,
-            1000
-          ),
-        },
-      ])
-      .setTimestamp();
-    return s.send({
-      embeds: [multipleResolvesEmbed],
-    });
-  });
+  // process.on("multipleResolves", (type, promise, reason) => {
+  //   console.log(type, promise, reason);
+  //   reload(client);
+  //   const multipleResolvesEmbed = new EmbedBuilder()
+  //     .setTitle("**🟥 There was an Multiple Resolve 🟥**")
+  //     .setURL("https://nodejs.org/api/process.html#event-multipleresolves")
+  //     .setColor(0xff0000)
+  //     .addFields([
+  //       {
+  //         name: "Type",
+  //         value: `\`\`\`${inspect(type, { depth: 0 })}\`\`\``.substring(
+  //           0,
+  //           1000
+  //         ),
+  //       },
+  //       {
+  //         name: "Promise",
+  //         value: `\`\`\`${inspect(promise, { depth: 0 })}\`\`\``.substring(
+  //           0,
+  //           1000
+  //         ),
+  //       },
+  //       {
+  //         name: "Reason",
+  //         value: `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(
+  //           0,
+  //           1000
+  //         ),
+  //       },
+  //     ])
+  //     .setTimestamp();
+  //   return s.send({
+  //     embeds: [multipleResolvesEmbed],
+  //   });
+  // });
 
   //warning
 

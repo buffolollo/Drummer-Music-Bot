@@ -29,7 +29,7 @@ module.exports = {
 
     if (!message.content.startsWith(prefix)) return;
 
-    console.log(prefix, "a")
+    console.log(prefix, "a");
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
