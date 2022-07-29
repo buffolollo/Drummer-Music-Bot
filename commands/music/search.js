@@ -16,11 +16,15 @@ module.exports = {
    * @param {String[]} args
    */
   execute(client, message, args) {
-    if (!args.length) return error(message, "**You didn't give me a song to play!**");
+    if (!args.length)
+      return error(message, "**You didn't give me a song to play!**");
 
     searcher
       .search(args.join(" "), { limit: 10, type: "video" })
       .then((result) => {
+        if (!result || result.length < 1) {
+          return error(message, "**I have not found any video!**");
+        }
         let resp = "";
         for (var i = 0; i < result.length; i++) {
           resp += `**[${parseInt(i) + 1}]** \`${result[i].title}\`\n`;
