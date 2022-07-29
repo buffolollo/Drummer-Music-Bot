@@ -86,17 +86,17 @@ module.exports = {
     if (searcher.validate(query, "PLAYLIST_ID")) {
       var a = 0;
       var interrupt = 0;
-      const playlist = await ytpl(query);
+      const playlist = await searcher.getPlaylist(query);
       message.channel.send({
-        content: `🔍🎶 **I'm adding the playlist** \`${playlist.title}. Songs: ${playlist.items.length}\` One moment...`,
+        content: `🔍🎶 **I'm adding the playlist** \`${playlist.title}. Songs: ${playlist.videos.length}\` One moment...`,
       });
-      for (let i = 0; i < playlist.items.length; i++) {
+      for (var i = 0; i < playlist.videos.length; i++) {
         if (!message.guild.members.me.voice.channel) {
           interrupt = 1;
           break;
         }
         await videoHandler(
-          await yt.getInfo(playlist.items[i].shortUrl),
+          await yt.getInfo(playlist.videos[i].id),
           message,
           vc,
           true
