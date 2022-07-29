@@ -8,7 +8,6 @@ const {
   AudioPlayer,
 } = require("@discordjs/voice");
 const ytdl = require("discord-ytdl-core");
-const youtubeScraper = require("yt-search");
 const yt = require("ytdl-core");
 const forHumans = require("../../utils/src/forhumans");
 module.exports = {
