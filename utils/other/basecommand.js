@@ -1,6 +1,5 @@
 const { Client, Message, EmbedBuilder } = require("discord.js");
 const ytdl = require("discord-ytdl-core");
-const ytsr = require("yt-search");
 const yt = require("ytdl-core");
 
 module.exports = {

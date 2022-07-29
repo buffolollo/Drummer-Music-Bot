@@ -9,7 +9,6 @@ const {
   getVoiceConnection,
 } = require("@discordjs/voice");
 const ytdl = require("discord-ytdl-core");
-const ytsr = require("yt-search");
 const yt = require("ytdl-core");
 
 module.exports = {
