@@ -18,7 +18,7 @@ module.exports = {
     let queue = message.client.queue.get(message.guild.id);
 
     const query = args[0];
-    if (!query) return send(`The volume is ${queue.volume}`);
+    if (!query) return send(message, `The volume is **${queue.volume}**`);
     let num = parseInt(query);
     if (isNaN(num)) return error(message, `Please enter a valid number!`);
 
