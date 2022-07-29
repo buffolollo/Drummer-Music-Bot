@@ -16,16 +16,7 @@ module.exports = {
    * @param {String[]} args
    */
   execute(client, message, args) {
-    if (message.author.bot) return;
-
-    const channel = message.member.voice.channel;
-
-    const queue = message.client.queue.get(message.guild.id);
-
-    const setqueue = (id, obj) => message.client.queue.set(id, obj);
-    const deletequeue = (id) => message.client.queue.delete(id);
-
-    if (!args.length) return error("**You didn't give me a song to play!**");
+    if (!args.length) return error(message, "**You didn't give me a song to play!**");
 
     searcher
       .search(args.join(" "), { limit: 10, type: "video" })
