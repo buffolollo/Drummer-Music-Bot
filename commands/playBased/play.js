@@ -13,7 +13,6 @@ let yt = require("ytdl-core");
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
 const searcher = require("youtube-sr").default;
-const ytpl = require("ytpl");
 const spotifyPlaylistRegex =
   /https?:\/\/(?:embed\.|open\.)(?:spotify\.com\/)(?:playlist\/|\?uri=spotify:playlist:)((\w|-){22})/;
 const spotifySongRegex =

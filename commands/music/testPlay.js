@@ -13,7 +13,7 @@ const ytsr = require("youtube-sr").default;
 // const { getData, getPreview, getTracks, getDetails } = require("spotify-url-info")(fetch);
 const fetch = require("isomorphic-unfetch");
 const spotify = require("spotify-url-info")(fetch);
-const ytpl = require("ytpl");
+
 const yt = require("ytdl-core");
 let ytdl = require("discord-ytdl-core");
 
