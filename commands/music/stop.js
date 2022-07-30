@@ -18,7 +18,7 @@ module.exports = {
    */
   execute(client, message, args) {
     const channel = message.member.voice.channel;
-    const clientVc = message.guild.me.voice.channel;
+    const clientVc = message.guild.members.me.voice.channel;
 
     let queue = message.client.queue.get(message.guild.id);
 
