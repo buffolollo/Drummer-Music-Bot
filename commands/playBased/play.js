@@ -77,7 +77,7 @@ module.exports = {
 
     setInterval(() => {
       if (message.guild.members.me.voice.channel)
-        message.member.guild.members.me.voice.setDeaf(true).catch((err) => {});
+        message.guild.members.me.voice.setDeaf(true).catch((err) => {});
     }, 2000);
 
     let vc = message.member.voice.channel;

@@ -29,22 +29,21 @@ module.exports = {
     const deletequeue = (id) => message.client.queue.delete(id);
 
     const queue = q.get(message.guild.id);
-    let num;
 
     if (queue.songs.length < 2)
       return error(message, "There's only the song I'm playing!");
 
-    num = parseInt(args[0]);
+    var num = parseInt(args[0]);
     if (isNaN(num)) return error(message, "Please enter a valid number!");
 
     if (num == 0) return error(message, "**You cannot enter the number 0!**");
 
     if (num == 1) {
-      skip.execute(client, message, args);
+      return skip.execute(client, message, args);
     }
 
     if (!queue.songs[num]) {
-      num = parseInt(queue.songs.length - 1);
+      var num = parseInt(queue.songs.length - 1);
       return _playYTDLStream(queue.songs[num]);
     }
 
@@ -124,8 +123,8 @@ module.exports = {
 
         data.songs[0] = data.songs[num];
         let q = data.songs;
-        let index = num;
-        q.splice(index, 1);
+        // let index = num;
+        q.splice(num, 1);
 
         return data.message.channel.send({
           content: `**Playing** 🎶 \`${track.name}\` - Now!`,
