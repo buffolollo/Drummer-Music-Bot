@@ -14,21 +14,6 @@ module.exports = {
   async execute(message, client) {
     if (message.channel.type == ChannelType.DM) return;
 
-    const blockuser = await BlockUser.findOne({
-      _id: message.author.id,
-    });
-    if (blockuser) blocked = blockuser.blocked;
-    if (!blockuser) {
-      blocked == false;
-      BlockUser.create({
-        _id: message.author.id,
-        blocked: false,
-      });
-    }
-    if (blocked == true) {
-      return error(message, `**You are blocked from the commands!**`);
-    }
-
     const data = await db.findOne({
       _id: message.author.id,
     });
@@ -43,6 +28,21 @@ module.exports = {
     }
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    const blockuser = await BlockUser.findOne({
+      _id: message.author.id,
+    });
+    if (blockuser) blocked = blockuser.blocked;
+    if (!blockuser) {
+      blocked == false;
+      BlockUser.create({
+        _id: message.author.id,
+        blocked: false,
+      });
+    }
+    if (blocked == true) {
+      return error(message, `**You are blocked from the commands!**`);
+    }
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
