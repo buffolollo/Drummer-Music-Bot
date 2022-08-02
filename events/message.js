@@ -72,12 +72,15 @@ module.exports = {
       if (message.guild.members.me.voice.channel) {
         if (
           message.member.voice.channelId !=
-          message.guild.members.me.voice.channelId
+            message.guild.members.me.voice.channelId &&
+          message.client.queue.get(message.guild.id)
         ) {
           return message.channel.send({
             embeds: [
               new EmbedBuilder()
-                .setDescription("**You are not in the same voice channel** :x:")
+                .setDescription(
+                  "**The bot is playing in another voice channel!**"
+                )
                 .setColor("Red"),
             ],
           });
