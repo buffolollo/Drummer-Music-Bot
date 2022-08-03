@@ -3,6 +3,8 @@ const prettyMilliseconds = require("pretty-ms");
 
 module.exports = {
   name: "uptime",
+  aliases: [],
+  d: "Bot uptime",
   /**
    *
    * @param {Client} client
