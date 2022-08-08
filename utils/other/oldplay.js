@@ -285,8 +285,6 @@ module.exports = {
           opusEncoded: true,
         });
         data.stream = newStream;
-        process.setMaxListeners(0);
-        emitter.setMaxListeners(0);
         let dispatcher = data.connection
           .play(newStream, { bitrate: "auto", type: "opus" })
           .on("finish", () => {

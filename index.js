@@ -1,19 +1,13 @@
 const {
   Client,
-  IntentsBitField,
   Collection,
   Partials,
   GatewayIntentBits,
 } = require("discord.js");
 const config = require("./config/config.json");
 const colors = require("colors/safe");
-const EventEmitter = require("events");
 const send = require("./utils/src/send");
 const error = require("./utils/src/error");
-const intents = new IntentsBitField(32767);
-
-process.setMaxListeners(0);
-EventEmitter.defaultMaxListeners = 0;
 
 const client = new Client({
   intents: [
