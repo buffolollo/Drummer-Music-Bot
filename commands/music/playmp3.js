@@ -4,7 +4,7 @@ const {
   createAudioPlayer,
   createAudioResource,
   VoiceConnectionStatus,
-  AudioPlayerStatus
+  AudioPlayerStatus,
 } = require("@discordjs/voice");
 
 module.exports = {
@@ -39,8 +39,8 @@ module.exports = {
     send(message, `I'm playing the sound!`);
 
     player.on(AudioPlayerStatus.Idle, () => {
-      send("Finished audio!")
-      connection.disconnect()
-    })
+      send(message, "Finished audio!");
+      connection.disconnect();
+    });
   },
 };
