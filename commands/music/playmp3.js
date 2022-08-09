@@ -32,9 +32,9 @@ module.exports = {
 
     const player = createAudioPlayer();
     const resource = createAudioResource(query, { inlineVolume: true });
+    resource.volume.setVolumeLogarithmic(100 / 100);
     player.play(resource);
     connection.subscribe(player);
-    resource.volume.setVolumeLogarithmic(100 / 100);
 
     send(message, `I'm playing the sound!`);
 
