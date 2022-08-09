@@ -15,7 +15,7 @@ module.exports = {
 
     const { commands } = message.client;
     let help = commands
-      .filter((cmd) => !cmd.staff && cmd.name != "pati")
+      .filter((cmd) => !cmd.staff && cmd.name != "pati" && cmd.aliases)
       .map(
         (cmd) => `\`${cmd.name}\`: ${cmd.d}\nAliases: ${cmd.aliases.join(",")}`
       )
@@ -37,7 +37,7 @@ module.exports = {
               `${help}`
           )
           .setTimestamp()
-          .setColor("DARK_GREEN"),
+          .setColor("Random"),
       ],
     });
   },
