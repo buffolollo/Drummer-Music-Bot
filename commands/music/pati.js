@@ -35,10 +35,10 @@ module.exports = {
     player.play(resource);
     connection.subscribe(player);
 
-    send(message, `I'm playing the sound!`);
+    send(message, `**PATI IS STARTING TO PLAY THE BEST SONG EVER!**`);
 
     player.on(AudioPlayerStatus.Idle, () => {
-      send(message, "Finished audio!");
+      send(message, "Pati has finished😭!");
       connection.disconnect();
     });
     connection.on(VoiceConnectionStatus.Disconnected, () => {
