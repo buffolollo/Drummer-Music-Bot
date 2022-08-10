@@ -19,11 +19,11 @@ module.exports = {
       return error(message, "**There are too few songs!**");
     }
 
-    await shuffle(queue.songs, send);
+    await shuffle(queue.songs, send, message);
   },
 };
 
-async function shuffle(squeue, send) {
+async function shuffle(squeue, send, message) {
   for (let i = squeue.length - 1; i > 0; i--) {
     let j = Math.round(Math.random() * (i + 1));
     while (j == 0) j = Math.round(Math.random() * (i + 1));
