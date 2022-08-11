@@ -5,6 +5,18 @@ async function getTime(query) {
   var timeString = date.toISOString().substr(11, 8);
   return timeString;
 }
+function getPBar(totSec, query) {
+  let thick = Math.floor(query / 5);
+  let thin = Math.ceil((100 - query) / 10) * 2;
+  let str = "_[_";
+
+  for (let i = 0; i < thick; i++) str += "▰";
+  for (let i = 0; i < thin; i++) str += "▱";
+
+  str += "_]_";
+
+  return str;
+}
 
 module.exports = {
   name: "nowplaying",
@@ -63,6 +75,10 @@ module.exports = {
               value: `(${streamTime} | ${time})  / (${timeLine} | ${
                 song.durationMS / 1000
               } seconds)`,
+            },
+            {
+              name: "time 2",
+              value: getPBar(song.durationMS / 1000, time),
             },
           ]),
         //.setDescription(`[${name}](${song.url})`)

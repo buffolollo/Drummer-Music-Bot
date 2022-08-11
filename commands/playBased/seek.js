@@ -28,8 +28,6 @@ module.exports = {
 
     const queue = message.client.queue.get(message.guild.id);
 
-    const error = (err) => message.channel.send(err);
-    const send = (content) => message.channel.send(content);
     const setqueue = (id, obj) => message.client.queue.set(id, obj);
     const deletequeue = (id) => message.client.queue.delete(id);
     var time;
@@ -99,8 +97,10 @@ module.exports = {
           quality: "highestaudio",
           highWaterMark: 1 << 25,
           opusEncoded: true,
+          seek: time,
         });
 
+        queue.addTime = parseInt(time);
         data.stream = newStream;
         const player = createAudioPlayer();
         const resource = createAudioResource(newStream, { inlineVolume: true });
