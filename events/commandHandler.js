@@ -1,7 +1,7 @@
 const { Message, Client, EmbedBuilder, ChannelType } = require("discord.js");
 const db = require("../database/schemas/prefixSchema");
 const BlockUser = require("../database/schemas/BlockUser");
-var prefix;
+var prefix; = "!"
 let blocked;
 
 module.exports = {
@@ -14,18 +14,18 @@ module.exports = {
   async execute(message, client) {
     if (message.channel.type == ChannelType.DM) return;
 
-    const data = await db.findOne({
-      _id: message.author.id,
-    });
+    // const data = await db.findOne({
+    //   _id: message.author.id,
+    // });
 
-    if (data) prefix = data.prefix;
-    if (!data) {
-      prefix = "!";
-      db.create({
-        _id: message.author.id,
-        prefix: "!",
-      });
-    }
+    // if (data) prefix = data.prefix;
+    // if (!data) {
+    //   prefix = "!";
+    //   db.create({
+    //     _id: message.author.id,
+    //     prefix: "!",
+    //   });
+    // }
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
