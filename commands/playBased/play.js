@@ -249,9 +249,9 @@ module.exports = {
             setTimeout(() => {
               let queue = message.client.queue.get(message.guild.id);
               if (queue) return;
-              if (message.guild.me.voice.channel) {
+              if (message.guild.members.me.voice.channel) {
                 const connection = getVoiceConnection(
-                  message.guild.me.voice.channel.guild.id
+                  message.guild.members.me.voice.channel.guild.id
                 );
                 connection.destroy();
               }
