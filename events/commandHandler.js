@@ -1,7 +1,7 @@
 const { Message, Client, EmbedBuilder, ChannelType } = require("discord.js");
 const db = require("../database/schemas/prefixSchema");
 const BlockUser = require("../database/schemas/BlockUser");
-var prefix; = "!"
+var prefix = "!";
 let blocked;
 
 module.exports = {
