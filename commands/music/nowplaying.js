@@ -7,7 +7,7 @@ async function getTime(query) {
 }
 function getPBar(totSec, query) {
   let thick = Math.floor(query / 5);
-  let thin = Math.ceil((100 - query) / 10) * 2;
+  let thin = Math.ceil((totSec - query) / 10) * 2;
   let str = "_[_";
 
   for (let i = 0; i < thick; i++) str += "▰";
@@ -77,7 +77,7 @@ module.exports = {
               } seconds)`,
             },
             {
-              name: "time 2",
+              name: "Progress Bar",
               value: getPBar(song.durationMS / 1000, time),
             },
           ]),
