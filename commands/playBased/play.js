@@ -242,7 +242,7 @@ module.exports = {
           try {
             deletequeue(message.guild.id);
             error(
-              queue.message,
+              data.message,
               "**The queue is empty, there are no more songs to play!**"
             );
             var interval = config.leaveOnEndQueue * 1000;
